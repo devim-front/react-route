@@ -44,6 +44,25 @@ export class ArticleRoute extends Route<Params> {
 }
 ```
 
+Использование маршрута:
+
+```tsx
+import { BrowserRouter, Switch } from 'react-router-dom';
+import React from 'react';
+
+import { Route as NotFoundRoute } from 'notFound';
+import { Route as HomeRoute } from 'home';
+
+export const App = () => (
+  <BrowserRouter>
+    <Switch>
+      {HomeRoute.get().render()}
+      {NotFoundROute.get().render()}
+    </Switch>
+  </BrowserRouter>
+);
+```
+
 _Прочие примеры в стадии наполнения._
 
 ## API

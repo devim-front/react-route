@@ -1,0 +1,340 @@
+[@devim-front/react-route](../README.md) › [Route](route.md)
+
+# Class: Route ‹**P**›
+
+Представляет маршрут приложения.
+
+## Type parameters
+
+▪ **P**: *[Params](../README.md#markdown-header-params)*
+
+## Hierarchy
+
+* LazyService‹[Events](../interfaces/events.md)›
+
+  ↳ **Route**
+
+## Index
+
+### Constructors
+
+* [constructor](route.md#markdown-header-constructor)
+
+### Properties
+
+* [component](route.md#markdown-header-component)
+* [exact](route.md#markdown-header-exact)
+* [path](route.md#markdown-header-path)
+* [instance](route.md#markdown-header-static-protected-instance)
+
+### Accessors
+
+* [isExists](route.md#markdown-header-static-protected-isexists)
+
+### Methods
+
+* [dispose](route.md#markdown-header-dispose)
+* [emit](route.md#markdown-header-protected-emit)
+* [getComponent](route.md#markdown-header-protected-getcomponent)
+* [getPath](route.md#markdown-header-protected-getpath)
+* [href](route.md#markdown-header-href)
+* [off](route.md#markdown-header-off)
+* [on](route.md#markdown-header-on)
+* [redirect](route.md#markdown-header-redirect)
+* [render](route.md#markdown-header-render)
+* [create](route.md#markdown-header-static-protected-create)
+* [delete](route.md#markdown-header-static-delete)
+* [get](route.md#markdown-header-static-get)
+* [init](route.md#markdown-header-static-init)
+
+## Constructors
+
+### <a id="markdown-header-constructor" name="markdown-header-constructor"></a>  constructor
+
+\+ **new Route**(...`_args`: any[]): *[Route](route.md)*
+
+*Inherited from [Route](route.md).[constructor](route.md#markdown-header-constructor)*
+
+Создает экземпляр сервиса. Получить созданный экземпляр можно с помощью
+статического метода get, вызов конструктора напрямую приводит к ошибке.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`..._args` | any[] | Аргументы, полученные из метода create.  |
+
+**Returns:** *[Route](route.md)*
+
+## Properties
+
+### <a id="markdown-header-component" name="markdown-header-component"></a>  component
+
+• **component**: *ComponentType‹any›*
+
+Компонент, который обрабатывает маршрут.
+
+___
+
+### <a id="markdown-header-exact" name="markdown-header-exact"></a>  exact
+
+• **exact**: *boolean* = false
+
+True, если адрес страницы должен соответствовать маске в точности.
+
+___
+
+### <a id="markdown-header-path" name="markdown-header-path"></a>  path
+
+• **path**: *string*
+
+Маска адреса страницы, которой соответствует маршрут.
+
+___
+
+### <a id="markdown-header-static-protected-instance" name="markdown-header-static-protected-instance"></a> `Static` `Protected` instance
+
+▪ **instance**: *any*
+
+*Inherited from [Route](route.md).[instance](route.md#markdown-header-static-protected-instance)*
+
+Экземпляр сервиса.
+
+## Accessors
+
+### <a id="markdown-header-static-protected-isexists" name="markdown-header-static-protected-isexists"></a> `Static` `Protected` isExists
+
+• **get isExists**(): *boolean*
+
+*Inherited from [Route](route.md).[isExists](route.md#markdown-header-static-protected-isexists)*
+
+Указывает, что экземпляр данного класса уже был создан.
+
+**Returns:** *boolean*
+
+## Methods
+
+### <a id="markdown-header-dispose" name="markdown-header-dispose"></a>  dispose
+
+▸ **dispose**(): *void*
+
+*Inherited from [Route](route.md).[dispose](route.md#markdown-header-dispose)*
+
+*Overrides void*
+
+Освобождает все занятые экземпляром сервиса ресурсы, подготавливая его к
+удалению. Для строго или ленивого сервиса прямой вызов этого метода
+запрещён и приведет к ошибке, поскольку это может создать неоднозначность
+в коде. Используйте вместо него статический метод delete.
+
+**Returns:** *void*
+
+___
+
+### <a id="markdown-header-protected-emit" name="markdown-header-protected-emit"></a> `Protected` emit
+
+▸ **emit**‹**T**›(`event`: T, ...`args`: Parameters‹Events[T]›): *void*
+
+*Inherited from [Route](route.md).[emit](route.md#markdown-header-protected-emit)*
+
+Вызывает указанное событие, передавая аргументы в его обработчики.
+
+**Type parameters:**
+
+▪ **T**: *keyof Events*
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`event` | T | Событие. |
+`...args` | Parameters‹Events[T]› | Аргументы, передаваемые в обработчики.  |
+
+**Returns:** *void*
+
+___
+
+### <a id="markdown-header-protected-getcomponent" name="markdown-header-protected-getcomponent"></a> `Protected` getComponent
+
+▸ **getComponent**(): *ComponentClass‹any, any› | FunctionComponent‹any›*
+
+Возвращает непустое значение свойства component или выбрасывает исключение.
+
+**Returns:** *ComponentClass‹any, any› | FunctionComponent‹any›*
+
+___
+
+### <a id="markdown-header-protected-getpath" name="markdown-header-protected-getpath"></a> `Protected` getPath
+
+▸ **getPath**(): *string*
+
+Возвращает непустое значение свойства path или выбрасывает исключение.
+
+**Returns:** *string*
+
+___
+
+### <a id="markdown-header-href" name="markdown-header-href"></a>  href
+
+▸ **href**(`params`: P): *string*
+
+Возвращает адрес страницы, подставляя указанные параметры в шаблон
+маршрута.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`params` | P | Параметры подстановки маршрута.  |
+
+**Returns:** *string*
+
+___
+
+### <a id="markdown-header-off" name="markdown-header-off"></a>  off
+
+▸ **off**‹**T**›(`event`: T, `handler`: Events[T]): *void*
+
+*Inherited from [Route](route.md).[off](route.md#markdown-header-off)*
+
+Удаляет указанный обработчик события.
+
+**Type parameters:**
+
+▪ **T**: *keyof Events*
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`event` | T | Событие. |
+`handler` | Events[T] | Обработчик.  |
+
+**Returns:** *void*
+
+___
+
+### <a id="markdown-header-on" name="markdown-header-on"></a>  on
+
+▸ **on**‹**T**›(`event`: T, `handler`: Events[T]): *void*
+
+*Inherited from [Route](route.md).[on](route.md#markdown-header-on)*
+
+Добавляет обработчик указанному событию.
+
+**Type parameters:**
+
+▪ **T**: *keyof Events*
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`event` | T | Событие. |
+`handler` | Events[T] | Обработчик.  |
+
+**Returns:** *void*
+
+___
+
+### <a id="markdown-header-redirect" name="markdown-header-redirect"></a>  redirect
+
+▸ **redirect**(`params`: P, `options`: [RedirectOptions](../README.md#markdown-header-redirectoptions)): *ComponentElement‹RedirectProps, Redirect‹››*
+
+Возвращает элемент Redirect из библиотеки react-router.
+
+**Parameters:**
+
+Name | Type | Default | Description |
+------ | ------ | ------ | ------ |
+`params` | P | - | Параметры для подстановки в маску маршрута. |
+`options` | [RedirectOptions](../README.md#markdown-header-redirectoptions) | {} | Параметры перенаправления.  |
+
+**Returns:** *ComponentElement‹RedirectProps, Redirect‹››*
+
+___
+
+### <a id="markdown-header-render" name="markdown-header-render"></a>  render
+
+▸ **render**(): *ComponentElement‹RouteProps, Route‹RouteProps››*
+
+Возвращает элемент Route из библиотеки react-router.
+
+**Returns:** *ComponentElement‹RouteProps, Route‹RouteProps››*
+
+___
+
+### <a id="markdown-header-static-protected-create" name="markdown-header-static-protected-create"></a> `Static` `Protected` create
+
+▸ **create**‹**T**›(...`args`: ConstructorParameters‹T›): *void*
+
+*Inherited from [Route](route.md).[create](route.md#markdown-header-static-protected-create)*
+
+Создает экземпляр сервиса и сохраняет его. Для создания экземпляра класса
+следует использовать именно его; вызов оператора new приводит к ошибке.
+
+**Type parameters:**
+
+▪ **T**: *typeof SingleService*
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`...args` | ConstructorParameters‹T› | Аргументы конструктора.  |
+
+**Returns:** *void*
+
+___
+
+### <a id="markdown-header-static-delete" name="markdown-header-static-delete"></a> `Static` delete
+
+▸ **delete**(): *void*
+
+*Inherited from [Route](route.md).[delete](route.md#markdown-header-static-delete)*
+
+Удаляет существующий экземпляр сервиса, освобождая все занятые им ресурсы.
+
+**Returns:** *void*
+
+___
+
+### <a id="markdown-header-static-get" name="markdown-header-static-get"></a> `Static` get
+
+▸ **get**‹**T**›(`this`: T): *InstanceType‹T›*
+
+*Inherited from [Route](route.md).[get](route.md#markdown-header-static-get)*
+
+*Overrides void*
+
+Возвращает экземпляр сервиса. Если экземпляр сервиса ещё не был создан,
+создаёт его.
+
+**Type parameters:**
+
+▪ **T**: *typeof SingleService*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`this` | T |
+
+**Returns:** *InstanceType‹T›*
+
+___
+
+### <a id="markdown-header-static-init" name="markdown-header-static-init"></a> `Static` init
+
+▸ **init**(): *void*
+
+*Inherited from [Route](route.md).[init](route.md#markdown-header-static-init)*
+
+*Overrides void*
+
+Инициализирует экземпляр сервиса. В случае с ленивым сервисом, метод
+просто создаёт экземпляр класса, если тот не был создан ранее. Повторные
+вызовы init его не пересоздают. Чтобы пересоздать экземпляр принудительно,
+используйте метод delete, а затем init.
+
+**Returns:** *void*
