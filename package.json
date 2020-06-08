@@ -1,6 +1,6 @@
 {
   "name": "@devim-front/react-route",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Содержит сущности для роутинга в React",
   "main": "index.js",
   "publishConfig": {
