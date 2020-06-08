@@ -29,12 +29,19 @@ var Route = /** @class */ (function (_super) {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         /**
          * True, если адрес страницы должен соответствовать маске в точности.
+         * Подробнее о поведении этого флага можно прочитать в документации
+         * react-router.
+         *
+         * @see https://reacttraining.com/react-router/web/api/Route/exact-bool
          */
         _this.exact = false;
         return _this;
     }
     /**
-     * Возвращает непустое значение свойства path или выбрасывает исключение.
+     * Возвращает значение свойства path или выбрасывает исключение, если оно не
+     * указано.
+     *
+     * @throws UndefinedPathError Выбрасывается, если свойство path не указано.
      */
     Route.prototype.getPath = function () {
         if (this.path == null) {
@@ -43,7 +50,11 @@ var Route = /** @class */ (function (_super) {
         return this.path;
     };
     /**
-     * Возвращает непустое значение свойства component или выбрасывает исключение.
+     * Возвращает значение свойства component или выбрасывает исключение, если
+     * оно не указано.
+     *
+     * @throws UndefinedComponentError Выбрасывается, если свойство component
+     * не указано.
      */
     Route.prototype.getComponent = function () {
         if (this.component == null) {
@@ -53,7 +64,10 @@ var Route = /** @class */ (function (_super) {
     };
     Object.defineProperty(Route.prototype, "compile", {
         /**
-         * Собирает маршрут.
+         * Компилирует маску пути в адрес страницы, подставляя указанный набор
+         * параметров внесте именованных параметров маски адреса.
+         *
+         * @param params Коллекция параметров для подстановки в маску.
          */
         get: function () {
             if (this.compileValue == null) {
@@ -75,7 +89,7 @@ var Route = /** @class */ (function (_super) {
         return this.compile(params);
     };
     /**
-     * Возвращает элемент Route из библиотеки react-router.
+     * Создает и возвращает элемент Route из библиотеки react-router.
      */
     Route.prototype.render = function () {
         var component = this.getComponent();
@@ -84,7 +98,7 @@ var Route = /** @class */ (function (_super) {
         return react_1.createElement(react_router_dom_1.Route, { component: component, path: path, exact: exact });
     };
     /**
-     * Возвращает элемент Redirect из библиотеки react-router.
+     * Создает и возвращает элемент Redirect из библиотеки react-router.
      *
      * @param params Параметры для подстановки в маску маршрута.
      * @param options Параметры перенаправления.

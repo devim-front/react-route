@@ -14,7 +14,7 @@ npm i -S @devim-front/react-route
 
 Объявление простого маршрута:
 
-```typescript
+```tsx
 import loadable from '@loadable/component';
 import React from 'react';
 import { Route } from '@devim-front/react-route';
@@ -28,7 +28,7 @@ export class HomeRoute extends Route {
 
 Объявление маршрута с параметрами:
 
-```typescript
+```tsx
 import loadable from '@loadable/component';
 import React from 'react';
 import { Route } from '@devim-front/react-route';
@@ -57,13 +57,27 @@ export const App = () => (
   <BrowserRouter>
     <Switch>
       {HomeRoute.get().render()}
-      {NotFoundROute.get().render()}
+      {NotFoundRoute.get().render()}
     </Switch>
   </BrowserRouter>
 );
 ```
 
-_Прочие примеры в стадии наполнения._
+Перенаправление:
+
+```tsx
+import { Store as AuthStore, SignInRoute } from 'auth';
+
+export const AccountPage = () => {
+  const { isAuthorized } = AuthStore.get();
+
+  if (!isAuthorized) {
+    return SignInRoute.get().redirect({ replace: true });
+  }
+
+  return <div>Dashboard</div>;
+};
+```
 
 ## API
 

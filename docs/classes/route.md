@@ -72,7 +72,11 @@ Name | Type | Description |
 
 • **component**: *ComponentType‹any›*
 
-Компонент, который обрабатывает маршрут.
+Компонент, который обрабатывает маршрут. В отличии от свойства "component"
+компонента Route из библиотеки react-router, в указанный компонент
+не будут переданы свойства роутера.
+
+**`see`** https://reacttraining.com/react-router/web/api/Route/component
 
 ___
 
@@ -81,6 +85,10 @@ ___
 • **exact**: *boolean* = false
 
 True, если адрес страницы должен соответствовать маске в точности.
+Подробнее о поведении этого флага можно прочитать в документации
+react-router.
+
+**`see`** https://reacttraining.com/react-router/web/api/Route/exact-bool
 
 ___
 
@@ -89,6 +97,8 @@ ___
 • **path**: *string*
 
 Маска адреса страницы, которой соответствует маршрут.
+
+**`see`** https://reacttraining.com/react-router/web/api/Route/path-string-string
 
 ___
 
@@ -158,7 +168,11 @@ ___
 
 ▸ **getComponent**(): *ComponentClass‹any, any› | FunctionComponent‹any›*
 
-Возвращает непустое значение свойства component или выбрасывает исключение.
+Возвращает значение свойства component или выбрасывает исключение, если
+оно не указано.
+
+**`throws`** UndefinedComponentError Выбрасывается, если свойство component
+не указано.
 
 **Returns:** *ComponentClass‹any, any› | FunctionComponent‹any›*
 
@@ -168,7 +182,10 @@ ___
 
 ▸ **getPath**(): *string*
 
-Возвращает непустое значение свойства path или выбрасывает исключение.
+Возвращает значение свойства path или выбрасывает исключение, если оно не
+указано.
+
+**`throws`** UndefinedPathError Выбрасывается, если свойство path не указано.
 
 **Returns:** *string*
 
@@ -241,7 +258,7 @@ ___
 
 ▸ **redirect**(`params`: P, `options`: [RedirectOptions](../README.md#markdown-header-redirectoptions)): *ComponentElement‹RedirectProps, Redirect‹››*
 
-Возвращает элемент Redirect из библиотеки react-router.
+Создает и возвращает элемент Redirect из библиотеки react-router.
 
 **Parameters:**
 
@@ -258,7 +275,7 @@ ___
 
 ▸ **render**(): *ComponentElement‹RouteProps, Route‹RouteProps››*
 
-Возвращает элемент Route из библиотеки react-router.
+Создает и возвращает элемент Route из библиотеки react-router.
 
 **Returns:** *ComponentElement‹RouteProps, Route‹RouteProps››*
 

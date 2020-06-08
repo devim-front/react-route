@@ -10,12 +10,22 @@ declare type RedirectOptions = {
     /**
      * Маска адреса или маршрут, при совпадении с которым должно происходить
      * перенаправление. Если не указан, перенаправление происходит в любом
-     * случае.
+     * случае. Если в качестве опции from указан другой маршрут, то
+     * перенаправление будет происходить только тогда, когда адрес страницы
+     * будет соответствовать указанному маршруту. Настройку "exact" маршрута
+     * можно переопределить с помощью опции exact (см. ниже).
+     *
+     * @see https://reacttraining.com/react-router/web/api/Redirect/from-string
      */
     from?: string | Route;
     /**
      * Указывает, что дочерняя страница не совпадает с маской, если её
-     * родительская страница совпала.
+     * родительская страница совпала. Подробнее о поведении этой опции можно
+     * прочитать в документации по react-router. Если в качестве from указан
+     * другой маршрут, то установленное в этой опции значение переопределит
+     * соответствующую настройку маршрута.
+     *
+     * @see https://reacttraining.com/react-router/web/api/Route/exact-bool
      */
     exact?: boolean;
     /**
@@ -29,31 +39,51 @@ declare type RedirectOptions = {
  */
 export declare class Route<P extends Params = void> extends LazyService<Events> {
     /**
-     * Компонент, который обрабатывает маршрут.
+     * Компонент, который обрабатывает маршрут. В отличии от свойства "component"
+     * компонента Route из библиотеки react-router, в указанный компонент
+     * не будут переданы свойства роутера.
+     *
+     * @see https://reacttraining.com/react-router/web/api/Route/component
      */
     component: ComponentType<any>;
     /**
      * Маска адреса страницы, которой соответствует маршрут.
+     *
+     * @see https://reacttraining.com/react-router/web/api/Route/path-string-string
      */
     path: string;
     /**
      * True, если адрес страницы должен соответствовать маске в точности.
+     * Подробнее о поведении этого флага можно прочитать в документации
+     * react-router.
+     *
+     * @see https://reacttraining.com/react-router/web/api/Route/exact-bool
      */
     exact: boolean;
     /**
-     * Возвращает непустое значение свойства path или выбрасывает исключение.
+     * Возвращает значение свойства path или выбрасывает исключение, если оно не
+     * указано.
+     *
+     * @throws UndefinedPathError Выбрасывается, если свойство path не указано.
      */
     protected getPath(): string;
     /**
-     * Возвращает непустое значение свойства component или выбрасывает исключение.
+     * Возвращает значение свойства component или выбрасывает исключение, если
+     * оно не указано.
+     *
+     * @throws UndefinedComponentError Выбрасывается, если свойство component
+     * не указано.
      */
     protected getComponent(): ComponentType<any>;
     /**
-     * Значение свойства compile.
+     * Сохраненное значение свойства compile.
      */
     private compileValue;
     /**
-     * Собирает маршрут.
+     * Компилирует маску пути в адрес страницы, подставляя указанный набор
+     * параметров внесте именованных параметров маски адреса.
+     *
+     * @param params Коллекция параметров для подстановки в маску.
      */
     private get compile();
     /**
@@ -64,11 +94,11 @@ export declare class Route<P extends Params = void> extends LazyService<Events> 
      */
     href(params: P): string;
     /**
-     * Возвращает элемент Route из библиотеки react-router.
+     * Создает и возвращает элемент Route из библиотеки react-router.
      */
     render(): import("react").CElement<import("react-router").RouteProps, RouteComponent<import("react-router").RouteProps>>;
     /**
-     * Возвращает элемент Redirect из библиотеки react-router.
+     * Создает и возвращает элемент Redirect из библиотеки react-router.
      *
      * @param params Параметры для подстановки в маску маршрута.
      * @param options Параметры перенаправления.
