@@ -115,6 +115,77 @@ var Route = /** @class */ (function (_super) {
     Route.prototype.render = function () {
         return react_1.createElement(react_router_dom_1.Route, this.props);
     };
+    /**
+     * Возвращает элемент Redirect из библиотеки react-router с предустановленными
+     * значениями свойств.
+     *
+     * @param push True, если при перенаправлении следует делать запись в истории
+     * браузера.
+     * @param args Коллекция аргуметов, с которыми были вызваны методы
+     * redirect или replace.
+     */
+    Route.prototype.createRedirect = function (push, args) {
+        var rawExact = undefined;
+        var rawFrom = undefined;
+        var params = undefined;
+        switch (args.length) {
+            case 3: {
+                rawFrom = args[0], rawExact = args[1], params = args[2];
+                break;
+            }
+            case 2: {
+                rawFrom = args[0], params = args[1];
+                break;
+            }
+            default: {
+                params = args[0];
+                break;
+            }
+        }
+        var to = this.href(params);
+        var exact;
+        var from;
+        if (rawFrom != null) {
+            if (typeof rawFrom !== 'string') {
+                from = rawFrom.getPath();
+                exact = rawExact == null ? rawFrom.exact : rawExact;
+            }
+            else {
+                exact = rawExact;
+                from = rawFrom;
+            }
+        }
+        return react_1.createElement(react_router_dom_1.Redirect, {
+            exact: exact,
+            push: push,
+            from: from,
+            to: to,
+        });
+    };
+    /**
+     * Реализация всех перегрузок метода redirect.
+     *
+     * @param args Список аргументов.
+     */
+    Route.prototype.redirect = function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        return this.createRedirect(true, args);
+    };
+    /**
+     * Реализация всех перегрузок метода replace.
+     *
+     * @param args Список аргументов.
+     */
+    Route.prototype.replace = function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        return this.createRedirect(false, args);
+    };
     return Route;
 }(service_1.LazyService));
 exports.Route = Route;

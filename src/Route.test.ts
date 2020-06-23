@@ -120,4 +120,7 @@ describe('Route', () => {
       assert.equal(value, `<div>${text}</div>`);
     });
   });
+
+  describe('redirect', () => {});
+  describe('replace', () => {});
 });

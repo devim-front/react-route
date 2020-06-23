@@ -40,7 +40,9 @@
 * [href](route.md#markdown-header-href)
 * [off](route.md#markdown-header-off)
 * [on](route.md#markdown-header-on)
+* [redirect](route.md#markdown-header-redirect)
 * [render](route.md#markdown-header-render)
+* [replace](route.md#markdown-header-replace)
 * [create](route.md#markdown-header-static-protected-create)
 * [delete](route.md#markdown-header-static-delete)
 * [get](route.md#markdown-header-static-get)
@@ -254,6 +256,86 @@ Name | Type | Description |
 
 ___
 
+### <a id="markdown-header-redirect" name="markdown-header-redirect"></a>  redirect
+
+▸ **redirect**(`params`: P): *[GoTo](../README.md#markdown-header-goto)*
+
+Возвращает элемент Redirect из библиотеки react-router, сконфигурированный
+таким образом, чтобы вызывать перенаправление на указанный маршрут
+в любом случае.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`params` | P | Коллекция именованных параметров для подстановки в маску адреса страницы.  |
+
+**Returns:** *[GoTo](../README.md#markdown-header-goto)*
+
+▸ **redirect**(`from`: string, `params`: P): *[GoTo](../README.md#markdown-header-goto)*
+
+Возвращает элемент Redirect из библиотеки react-router, сконфигурированный
+таким образом, чтобы вызывать перенаправление на данный маршрут лишь
+тогда, когда адрес страницы совпадает указанной маской.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`from` | string | Маска адреса страницы. |
+`params` | P | Коллекция именованных параметров для подстановки в маску адреса данного маршрута.  |
+
+**Returns:** *[GoTo](../README.md#markdown-header-goto)*
+
+▸ **redirect**(`from`: string, `exact`: boolean, `params`: P): *[GoTo](../README.md#markdown-header-goto)*
+
+Возвращает элемент Redirect из библиотеки react-router, сконфигурированный
+таким образом, чтобы вызывать перенаправление на данный маршрут лишь
+тогда, когда адрес страницы совпадает указанной маской.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`from` | string | Маска адреса страницы. |
+`exact` | boolean | Значение свойства "exact" элемента Redirect. |
+`params` | P | Коллекция именованных параметров для подстановки в маску адреса данного маршрута.  |
+
+**Returns:** *[GoTo](../README.md#markdown-header-goto)*
+
+▸ **redirect**(`from`: [Route](route.md)‹any›, `params`: P): *[GoTo](../README.md#markdown-header-goto)*
+
+Возвращает элемент Redirect из библиотеки react-router, сконфигурированный
+таким образом, чтобы вызывать перенаправление на данный маршрут лишь
+тогда, когда адрес страницы совпадает с указанным маршрутом.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`from` | [Route](route.md)‹any› | Маршрут. |
+`params` | P | Коллекция именованных параметров для подстановки в маску адреса данного маршрута.  |
+
+**Returns:** *[GoTo](../README.md#markdown-header-goto)*
+
+▸ **redirect**(`from`: [Route](route.md)‹any›, `exact`: boolean, `params`: P): *[GoTo](../README.md#markdown-header-goto)*
+
+Возвращает элемент Redirect из библиотеки react-router, сконфигурированный
+таким образом, чтобы вызывать перенаправление на данный маршрут лишь
+тогда, когда адрес страницы совпадает с указанным маршрутом.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`from` | [Route](route.md)‹any› | Маршрут. |
+`exact` | boolean | Значение флага "exact", переопределяющее аналогичный флаг у переданного в "from" маршрута. |
+`params` | P | Коллекция именованных параметров для подстановки в маску адреса данного маршрута.  |
+
+**Returns:** *[GoTo](../README.md#markdown-header-goto)*
+
+___
+
 ### <a id="markdown-header-render" name="markdown-header-render"></a>  render
 
 ▸ **render**(): *ComponentElement‹RouteProps, Route‹RouteProps››*
@@ -264,6 +346,90 @@ ___
 **`see`** https://reacttraining.com/react-router/web/api/Route
 
 **Returns:** *ComponentElement‹RouteProps, Route‹RouteProps››*
+
+___
+
+### <a id="markdown-header-replace" name="markdown-header-replace"></a>  replace
+
+▸ **replace**(`params`: P): *[GoTo](../README.md#markdown-header-goto)*
+
+Возвращает элемент Redirect из библиотеки react-router, сконфигурированный
+таким образом, чтобы вызывать перенаправление на указанный маршрут
+в любом случае. Переправление происходит без записи в браузерной истории.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`params` | P | Коллекция именованных параметров для подстановки в маску адреса страницы.  |
+
+**Returns:** *[GoTo](../README.md#markdown-header-goto)*
+
+▸ **replace**(`from`: string, `params`: P): *[GoTo](../README.md#markdown-header-goto)*
+
+Возвращает элемент Redirect из библиотеки react-router, сконфигурированный
+таким образом, чтобы вызывать перенаправление на данный маршрут лишь
+тогда, когда адрес страницы совпадает указанной маской. Переправление
+происходит без записи в браузерной истории.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`from` | string | Маска адреса страницы. |
+`params` | P | Коллекция именованных параметров для подстановки в маску адреса данного маршрута.  |
+
+**Returns:** *[GoTo](../README.md#markdown-header-goto)*
+
+▸ **replace**(`from`: string, `exact`: boolean, `params`: P): *[GoTo](../README.md#markdown-header-goto)*
+
+Возвращает элемент Redirect из библиотеки react-router, сконфигурированный
+таким образом, чтобы вызывать перенаправление на данный маршрут лишь
+тогда, когда адрес страницы совпадает указанной маской. Переправление
+происходит без записи в браузерной истории.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`from` | string | Маска адреса страницы. |
+`exact` | boolean | Значение свойства "exact" элемента Redirect. |
+`params` | P | Коллекция именованных параметров для подстановки в маску адреса данного маршрута.  |
+
+**Returns:** *[GoTo](../README.md#markdown-header-goto)*
+
+▸ **replace**(`from`: [Route](route.md)‹any›, `params`: P): *[GoTo](../README.md#markdown-header-goto)*
+
+Возвращает элемент Redirect из библиотеки react-router, сконфигурированный
+таким образом, чтобы вызывать перенаправление на данный маршрут лишь
+тогда, когда адрес страницы совпадает с указанным маршрутом. Переправление
+происходит без записи в браузерной истории.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`from` | [Route](route.md)‹any› | Маршрут. |
+`params` | P | Коллекция именованных параметров для подстановки в маску адреса данного маршрута.  |
+
+**Returns:** *[GoTo](../README.md#markdown-header-goto)*
+
+▸ **replace**(`from`: [Route](route.md)‹any›, `exact`: boolean, `params`: P): *[GoTo](../README.md#markdown-header-goto)*
+
+Возвращает элемент Redirect из библиотеки react-router, сконфигурированный
+таким образом, чтобы вызывать перенаправление на данный маршрут лишь
+тогда, когда адрес страницы совпадает с указанным маршрутом. Переправление
+происходит без записи в браузерной истории.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`from` | [Route](route.md)‹any› | Маршрут. |
+`exact` | boolean | Значение флага "exact", переопределяющее аналогичный флаг у переданного в "from" маршрута. |
+`params` | P | Коллекция именованных параметров для подстановки в маску адреса данного маршрута.  |
+
+**Returns:** *[GoTo](../README.md#markdown-header-goto)*
 
 ___
 

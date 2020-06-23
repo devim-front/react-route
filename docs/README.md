@@ -18,6 +18,7 @@
 ### Type aliases
 
 * [Compile](README.md#markdown-header-compile)
+* [GoTo](README.md#markdown-header-goto)
 * [Handler](README.md#markdown-header-handler)
 * [Params](README.md#markdown-header-params)
 
@@ -32,6 +33,15 @@
 Ƭ **Compile**: *ReturnType‹typeof compile›*
 
 Функция компиляции адреса страницы из шаблона маршрута.
+
+___
+
+### <a id="markdown-header-goto" name="markdown-header-goto"></a>  GoTo
+
+Ƭ **GoTo**: *ReactElement‹RedirectProps›*
+
+Элемент Redirect из библиотеки react-router с предустановленными
+значениями свойств.
 
 ___
 
