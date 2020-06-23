@@ -1,13 +1,12 @@
 import { LazyService } from '@devim-front/service';
-import { ComponentType, createElement } from 'react';
+import { createElement, ComponentType } from 'react';
 import { compile } from 'path-to-regexp';
-import {
-  Redirect as RedirectComponent,
-  Route as RouteComponent,
-} from 'react-router-dom';
+import { Route as RouteComponent } from 'react-router-dom';
 
 import { UndefinedComponentError } from './UndefinedComponentError';
 import { UndefinedPathError } from './UndefinedPathError';
+import { withRouteWrapper } from './withRouteWrapper';
+import { Handler } from './Handler';
 import { Events } from './Events';
 import { Params } from './Params';
 
@@ -17,54 +16,21 @@ import { Params } from './Params';
 type Compile = ReturnType<typeof compile>;
 
 /**
- * Параметры перенаправления.
- */
-type RedirectOptions = {
-  /**
-   * Маска адреса или маршрут, при совпадении с которым должно происходить
-   * перенаправление. Если не указан, перенаправление происходит в любом
-   * случае. Если в качестве опции from указан другой маршрут, то
-   * перенаправление будет происходить только тогда, когда адрес страницы
-   * будет соответствовать указанному маршруту. Настройку "exact" маршрута
-   * можно переопределить с помощью опции exact (см. ниже).
-   *
-   * @see https://reacttraining.com/react-router/web/api/Redirect/from-string
-   */
-  from?: string | Route;
-
-  /**
-   * Указывает, что дочерняя страница не совпадает с маской, если её
-   * родительская страница совпала. Подробнее о поведении этой опции можно
-   * прочитать в документации по react-router. Если в качестве from указан
-   * другой маршрут, то установленное в этой опции значение переопределит
-   * соответствующую настройку маршрута.
-   *
-   * @see https://reacttraining.com/react-router/web/api/Route/exact-bool
-   */
-  exact?: boolean;
-
-  /**
-   * Указывает, что при указанном перенаправлении не делается запись в
-   * браузерной истории.
-   */
-  replace?: boolean;
-};
-
-/**
  * Представляет маршрут приложения.
  */
 export class Route<P extends Params = void> extends LazyService<Events> {
   /**
    * Компонент, который обрабатывает маршрут. В отличии от свойства "component"
    * компонента Route из библиотеки react-router, в указанный компонент
-   * не будут переданы свойства роутера.
+   * не передаются свойства.
    *
    * @see https://reacttraining.com/react-router/web/api/Route/component
    */
-  public component: ComponentType<any>;
+  public component: Handler;
 
   /**
-   * Маска адреса страницы, которой соответствует маршрут.
+   * Маска адреса страницы, которой соответствует маршрут. Данное свойство
+   * аналогично свойству "path" компонента Route из библиотеки react-router.
    *
    * @see https://reacttraining.com/react-router/web/api/Route/path-string-string
    */
@@ -139,32 +105,37 @@ export class Route<P extends Params = void> extends LazyService<Events> {
   }
 
   /**
-   * Создает и возвращает элемент Route из библиотеки react-router.
+   * Сохранённое значение свойства "props".
    */
-  public render() {
-    const component = this.getComponent();
-    const path = this.getPath();
-    const { exact } = this;
-    return createElement(RouteComponent, { component, path, exact });
+  private propsValue: {
+    component: ComponentType<any>;
+    path: string;
+    exact: boolean;
+  };
+
+  /**
+   * Коллекция свойств, пригодных для подстановки в компонент Route из
+   * библиотеки react-router.
+   */
+  private get props() {
+    if (this.propsValue == null) {
+      const component = withRouteWrapper(this.getComponent());
+      const path = this.getPath();
+      const { exact } = this;
+
+      this.propsValue = { component, exact, path };
+    }
+
+    return this.propsValue;
   }
 
   /**
-   * Создает и возвращает элемент Redirect из библиотеки react-router.
+   * Создает и возвращает элемент Route из библиотеки react-router с
+   * предустановленными значениями свойств component, path и exact.
    *
-   * @param params Параметры для подстановки в маску маршрута.
-   * @param options Параметры перенаправления.
+   * @see https://reacttraining.com/react-router/web/api/Route
    */
-  public redirect(params: P, options: RedirectOptions = {}) {
-    const to = this.href(params);
-
-    const { replace: push = false } = options;
-    let { from, exact } = options;
-
-    if (from instanceof Route) {
-      exact = exact == null ? from.exact : exact;
-      from = from.getPath();
-    }
-
-    return createElement(RedirectComponent, { exact, from, push, to });
+  public render() {
+    return createElement(RouteComponent, this.props);
   }
 }

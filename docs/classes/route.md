@@ -40,7 +40,6 @@
 * [href](route.md#markdown-header-href)
 * [off](route.md#markdown-header-off)
 * [on](route.md#markdown-header-on)
-* [redirect](route.md#markdown-header-redirect)
 * [render](route.md#markdown-header-render)
 * [create](route.md#markdown-header-static-protected-create)
 * [delete](route.md#markdown-header-static-delete)
@@ -70,11 +69,11 @@ Name | Type | Description |
 
 ### <a id="markdown-header-component" name="markdown-header-component"></a>  component
 
-• **component**: *ComponentType‹any›*
+• **component**: *[Handler](../README.md#markdown-header-handler)*
 
 Компонент, который обрабатывает маршрут. В отличии от свойства "component"
 компонента Route из библиотеки react-router, в указанный компонент
-не будут переданы свойства роутера.
+не передаются свойства.
 
 **`see`** https://reacttraining.com/react-router/web/api/Route/component
 
@@ -96,7 +95,8 @@ ___
 
 • **path**: *string*
 
-Маска адреса страницы, которой соответствует маршрут.
+Маска адреса страницы, которой соответствует маршрут. Данное свойство
+аналогично свойству "path" компонента Route из библиотеки react-router.
 
 **`see`** https://reacttraining.com/react-router/web/api/Route/path-string-string
 
@@ -254,28 +254,14 @@ Name | Type | Description |
 
 ___
 
-### <a id="markdown-header-redirect" name="markdown-header-redirect"></a>  redirect
-
-▸ **redirect**(`params`: P, `options`: [RedirectOptions](../README.md#markdown-header-redirectoptions)): *ComponentElement‹RedirectProps, Redirect‹››*
-
-Создает и возвращает элемент Redirect из библиотеки react-router.
-
-**Parameters:**
-
-Name | Type | Default | Description |
------- | ------ | ------ | ------ |
-`params` | P | - | Параметры для подстановки в маску маршрута. |
-`options` | [RedirectOptions](../README.md#markdown-header-redirectoptions) | {} | Параметры перенаправления.  |
-
-**Returns:** *ComponentElement‹RedirectProps, Redirect‹››*
-
-___
-
 ### <a id="markdown-header-render" name="markdown-header-render"></a>  render
 
 ▸ **render**(): *ComponentElement‹RouteProps, Route‹RouteProps››*
 
-Создает и возвращает элемент Route из библиотеки react-router.
+Создает и возвращает элемент Route из библиотеки react-router с
+предустановленными значениями свойств component, path и exact.
+
+**`see`** https://reacttraining.com/react-router/web/api/Route
 
 **Returns:** *ComponentElement‹RouteProps, Route‹RouteProps››*
 

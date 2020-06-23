@@ -20,6 +20,7 @@ var path_to_regexp_1 = require("path-to-regexp");
 var react_router_dom_1 = require("react-router-dom");
 var UndefinedComponentError_1 = require("./UndefinedComponentError");
 var UndefinedPathError_1 = require("./UndefinedPathError");
+var withRouteWrapper_1 = require("./withRouteWrapper");
 /**
  * Представляет маршрут приложения.
  */
@@ -88,31 +89,31 @@ var Route = /** @class */ (function (_super) {
     Route.prototype.href = function (params) {
         return this.compile(params);
     };
+    Object.defineProperty(Route.prototype, "props", {
+        /**
+         * Коллекция свойств, пригодных для подстановки в компонент Route из
+         * библиотеки react-router.
+         */
+        get: function () {
+            if (this.propsValue == null) {
+                var component = withRouteWrapper_1.withRouteWrapper(this.getComponent());
+                var path = this.getPath();
+                var exact = this.exact;
+                this.propsValue = { component: component, exact: exact, path: path };
+            }
+            return this.propsValue;
+        },
+        enumerable: false,
+        configurable: true
+    });
     /**
-     * Создает и возвращает элемент Route из библиотеки react-router.
+     * Создает и возвращает элемент Route из библиотеки react-router с
+     * предустановленными значениями свойств component, path и exact.
+     *
+     * @see https://reacttraining.com/react-router/web/api/Route
      */
     Route.prototype.render = function () {
-        var component = this.getComponent();
-        var path = this.getPath();
-        var exact = this.exact;
-        return react_1.createElement(react_router_dom_1.Route, { component: component, path: path, exact: exact });
-    };
-    /**
-     * Создает и возвращает элемент Redirect из библиотеки react-router.
-     *
-     * @param params Параметры для подстановки в маску маршрута.
-     * @param options Параметры перенаправления.
-     */
-    Route.prototype.redirect = function (params, options) {
-        if (options === void 0) { options = {}; }
-        var to = this.href(params);
-        var _a = options.replace, push = _a === void 0 ? false : _a;
-        var from = options.from, exact = options.exact;
-        if (from instanceof Route) {
-            exact = exact == null ? from.exact : exact;
-            from = from.getPath();
-        }
-        return react_1.createElement(react_router_dom_1.Redirect, { exact: exact, from: from, push: push, to: to });
+        return react_1.createElement(react_router_dom_1.Route, this.props);
     };
     return Route;
 }(service_1.LazyService));

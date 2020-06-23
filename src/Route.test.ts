@@ -1,5 +1,5 @@
-import { createElement, ReactNode } from 'react';
-import { StaticRouter, Switch } from 'react-router-dom';
+import { createElement } from 'react';
+import { StaticRouter } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
 import { assert } from 'chai';
 
@@ -61,41 +61,44 @@ describe('Route', () => {
   });
 
   describe('href', () => {
-    class EmptyRoute extends Route {
-      public path = '/';
-    }
-
-    type StringParams = {
-      foo: string;
-    };
-
-    class StringRoute extends Route<StringParams> {
-      public path = '/:foo';
-    }
-
-    type NumberParams = {
-      foo: number;
-    };
-
-    class NumberRoute extends Route<NumberParams> {
-      public path = '/:foo';
-    }
-
     it('should works without parameters', () => {
-      const value = EmptyRoute.get().href();
-      assert.equal(value, '/');
+      const base = '/foo';
+
+      class TestRoute extends Route {
+        public path = base;
+      }
+
+      const value = TestRoute.get().href();
+      assert.equal(value, base);
     });
 
-    it('should works with string parameter', () => {
-      const foo = 'bar';
-      const value = StringRoute.get().href({ foo });
-      assert.equal(value, `/${foo}`);
+    it('should works with one parameter', () => {
+      const base = '/foo';
+      const bar = 'bar';
+
+      type Params = { bar: string };
+
+      class TestRoute extends Route<Params> {
+        public path = `${base}/:${bar}`;
+      }
+
+      const value = TestRoute.get().href({ bar });
+      assert.equal(value, `${base}/${bar}`);
     });
 
-    it('should works with number parameter', () => {
-      const foo = 1;
-      const value = NumberRoute.get().href({ foo });
-      assert.equal(value, `/${foo}`);
+    it('should works with many parameters', () => {
+      const base = '/foo';
+      const bar = 'bar';
+      const xyz = 'xyz';
+
+      type Params = { bar: string; xyz: string };
+
+      class TestRoute extends Route<Params> {
+        public path = `${base}/:${bar}/:${xyz}`;
+      }
+
+      const value = TestRoute.get().href({ bar, xyz });
+      assert.equal(value, `${base}/${bar}/${xyz}`);
     });
   });
 
@@ -115,180 +118,6 @@ describe('Route', () => {
       );
 
       assert.equal(value, `<div>${text}</div>`);
-    });
-  });
-
-  describe('redirect', () => {
-    const getUrl = (path: string, node: ReactNode): string | undefined => {
-      const context: any = {};
-
-      renderToString(
-        createElement(
-          StaticRouter,
-          { context, location: path },
-          createElement(Switch, {}, node)
-        )
-      );
-
-      const { url } = context;
-      return url;
-    };
-
-    it('should works without options', () => {
-      const redirectUrl = '/foo';
-
-      class CustomRoute extends Route {
-        public path = redirectUrl;
-      }
-
-      const url = getUrl('/', CustomRoute.get().redirect());
-      assert.equal(url, redirectUrl);
-    });
-
-    it('should works with parametrized path and without options', () => {
-      const redirectUrl = '/bar';
-
-      type Params = {
-        foo: string;
-      };
-
-      class CustomRoute extends Route<Params> {
-        public path = '/:foo';
-      }
-
-      const url = getUrl('/', CustomRoute.get().redirect({ foo: 'bar' }));
-      assert.equal(url, redirectUrl);
-    });
-
-    it('should redirects if the option "from" is string and matches to location', () => {
-      const redirectUrl = '/bar';
-      const location = '/foo';
-
-      class CustomRoute extends Route {
-        public path = redirectUrl;
-      }
-
-      const url = getUrl(
-        location,
-        CustomRoute.get().redirect(undefined, {
-          from: location,
-        })
-      );
-
-      assert.equal(url, redirectUrl);
-    });
-
-    it("should not redirects if the option doesn't match to location", () => {
-      const redirectUrl = '/bar';
-      const location = '/';
-
-      class CustomRoute extends Route {
-        public path = redirectUrl;
-      }
-
-      const url = getUrl(
-        location,
-        CustomRoute.get().redirect(undefined, { from: '/xyz' })
-      );
-
-      assert.isUndefined(url);
-    });
-
-    it("should redirects if parent of the page is match with 'from' and 'exact' is undefined", () => {
-      const redirectUrl = '/foo';
-      const location = '/bar';
-
-      class CustomRoute extends Route {
-        public path = redirectUrl;
-      }
-
-      const url = getUrl(
-        location,
-        CustomRoute.get().redirect(undefined, { from: '/' })
-      );
-
-      assert.equal(url, redirectUrl);
-    });
-
-    it("should not redirects if parent of the page is match with 'from' and 'exact' is true", () => {
-      const redirectUrl = '/foo';
-      const location = '/bar';
-
-      class CustomRoute extends Route {
-        public path = redirectUrl;
-      }
-
-      const url = getUrl(
-        location,
-        CustomRoute.get().redirect(undefined, { exact: true, from: '/' })
-      );
-
-      assert.isUndefined(url);
-    });
-
-    it("should redirects if 'from' is Route instance", () => {
-      const from = '/foo';
-      const to = '/bar';
-
-      class FromRoute extends Route {
-        public path = from;
-      }
-
-      class ToRoute extends Route {
-        public path = to;
-      }
-
-      const url = getUrl(
-        from,
-        ToRoute.get().redirect(undefined, { from: FromRoute.get() })
-      );
-
-      assert.equal(url, to);
-    });
-
-    it("shouldn't redirects a nested url if 'from' is Route instance with true 'exact'", () => {
-      const from = '/foo';
-      const to = '/bar';
-
-      class FromRoute extends Route {
-        public exact = true;
-        public path = from;
-      }
-
-      class ToRoute extends Route {
-        public path = to;
-      }
-
-      const url = getUrl(
-        `${from}/bar`,
-        ToRoute.get().redirect(undefined, { from: FromRoute.get() })
-      );
-
-      assert.isUndefined(url);
-    });
-
-    it("should redirects a nested url if 'from' is Route instance with overriden in options 'exact'", () => {
-      const from = '/foo';
-      const to = '/bar';
-
-      class FromRoute extends Route {
-        public exact = true;
-        public path = from;
-      }
-
-      class ToRoute extends Route {
-        public path = to;
-      }
-
-      const url = getUrl(
-        `${from}/bar`,
-        ToRoute.get().redirect(undefined, {
-          from: FromRoute.get(),
-          exact: false,
-        })
-      );
-
-      assert.equal(url, to);
     });
   });
 });

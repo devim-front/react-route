@@ -18,8 +18,12 @@
 ### Type aliases
 
 * [Compile](README.md#markdown-header-compile)
+* [Handler](README.md#markdown-header-handler)
 * [Params](README.md#markdown-header-params)
-* [RedirectOptions](README.md#markdown-header-redirectoptions)
+
+### Functions
+
+* [withRouteWrapper](README.md#markdown-header-const-withroutewrapper)
 
 ## Type aliases
 
@@ -31,24 +35,33 @@
 
 ___
 
+### <a id="markdown-header-handler" name="markdown-header-handler"></a>  Handler
+
+Ƭ **Handler**: *ComponentType‹any›*
+
+Компонент React, который обслуживает маршрут.
+
+___
+
 ### <a id="markdown-header-params" name="markdown-header-params"></a>  Params
 
 Ƭ **Params**: *Record‹string, string | number› | void*
 
 Коллекция параметров маски адреса страницы.
 
-___
+## Functions
 
-### <a id="markdown-header-redirectoptions" name="markdown-header-redirectoptions"></a>  RedirectOptions
+### <a id="markdown-header-const-withroutewrapper" name="markdown-header-const-withroutewrapper"></a> `Const` withRouteWrapper
 
-Ƭ **RedirectOptions**: *object*
+▸ **withRouteWrapper**(`target`: [Handler](README.md#markdown-header-handler)): *WithRouteHandler*
 
-Параметры перенаправления.
+Оборачивает компонент, который обслуживает маршрут, в обёртку, которая
+изолирует его от проброса ненужных свойств.
 
-#### Type declaration:
+**Parameters:**
 
-* **exact**? : *undefined | false | true*
+Name | Type | Description |
+------ | ------ | ------ |
+`target` | [Handler](README.md#markdown-header-handler) | Компонент, который обслуживает маршрут.  |
 
-* **from**? : *string | [Route](classes/route.md)*
-
-* **replace**? : *undefined | false | true*
+**Returns:** *WithRouteHandler*
