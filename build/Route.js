@@ -61,7 +61,10 @@ var Route = /** @class */ (function (_super) {
         if (this.component == null) {
             throw new UndefinedComponentError_1.UndefinedComponentError(this.constructor.name);
         }
-        return this.component;
+        if (this.wrapperdComponent == null) {
+            this.wrapperdComponent = withRouteWrapper_1.withRouteWrapper(this.component);
+        }
+        return this.wrapperdComponent;
     };
     Object.defineProperty(Route.prototype, "compile", {
         /**
@@ -89,23 +92,6 @@ var Route = /** @class */ (function (_super) {
     Route.prototype.href = function (params) {
         return this.compile(params);
     };
-    Object.defineProperty(Route.prototype, "props", {
-        /**
-         * Коллекция свойств, пригодных для подстановки в компонент Route из
-         * библиотеки react-router.
-         */
-        get: function () {
-            if (this.propsValue == null) {
-                var component = withRouteWrapper_1.withRouteWrapper(this.getComponent());
-                var path = this.getPath();
-                var exact = this.exact;
-                this.propsValue = { component: component, exact: exact, path: path };
-            }
-            return this.propsValue;
-        },
-        enumerable: false,
-        configurable: true
-    });
     /**
      * Создает и возвращает элемент Route из библиотеки react-router с
      * предустановленными значениями свойств component, path и exact.
@@ -113,7 +99,14 @@ var Route = /** @class */ (function (_super) {
      * @see https://reacttraining.com/react-router/web/api/Route
      */
     Route.prototype.render = function () {
-        return react_1.createElement(react_router_dom_1.Route, this.props);
+        var component = this.getComponent();
+        var path = this.getPath();
+        var exact = this.exact;
+        return react_1.createElement(react_router_dom_1.Route, {
+            component: component,
+            exact: exact,
+            path: path,
+        });
     };
     /**
      * Возвращает элемент Redirect из библиотеки react-router с предустановленными
@@ -124,7 +117,7 @@ var Route = /** @class */ (function (_super) {
      * @param args Коллекция аргуметов, с которыми были вызваны методы
      * redirect или replace.
      */
-    Route.prototype.createRedirect = function (push, args) {
+    Route.prototype.goTo = function (push, args) {
         var rawExact = undefined;
         var rawFrom = undefined;
         var params = undefined;
@@ -168,7 +161,7 @@ var Route = /** @class */ (function (_super) {
         for (var _i = 0; _i < arguments.length; _i++) {
             args[_i] = arguments[_i];
         }
-        return this.createRedirect(true, args);
+        return this.goTo(true, args);
     };
     /**
      * Реализация всех перегрузок метода replace.
@@ -180,7 +173,7 @@ var Route = /** @class */ (function (_super) {
         for (var _i = 0; _i < arguments.length; _i++) {
             args[_i] = arguments[_i];
         }
-        return this.createRedirect(false, args);
+        return this.goTo(false, args);
     };
     return Route;
 }(service_1.LazyService));

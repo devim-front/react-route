@@ -8,59 +8,16 @@ import { UndefinedPathError } from './UndefinedPathError';
 import { Route } from './Route';
 
 describe('Route', () => {
-  describe('getPath', () => {
-    class TestRoute extends Route {
-      public getTestPath() {
-        return this.getPath();
-      }
-    }
-
-    class ValidTestRoute extends TestRoute {
-      public path = '/';
-    }
-
-    class InvalidTestRoute extends TestRoute {}
-
-    it('should works well if path is defined', () => {
-      assert.doesNotThrow(() => ValidTestRoute.get().getTestPath());
-    });
-
-    it('should throws an error if the path is undefined', () => {
-      assert.throw(
-        () => InvalidTestRoute.get().getTestPath(),
-        new UndefinedPathError(InvalidTestRoute.name).message
-      );
-    });
-  });
-
-  describe('getComponent', () => {
-    class TestRoute extends Route {
-      public getTestComponent() {
-        return this.getComponent();
-      }
-    }
-
-    const Component = () => null;
-
-    class ValidTestRoute extends TestRoute {
-      public component = Component;
-    }
-
-    class InvalidTestRoute extends TestRoute {}
-
-    it('should works well if the component is defined', () => {
-      assert.doesNotThrow(() => ValidTestRoute.get().getTestComponent());
-    });
-
-    it('should throws an error if the component is undefined', () => {
-      assert.throw(
-        () => InvalidTestRoute.get().getTestComponent(),
-        new UndefinedComponentError(InvalidTestRoute.name).message
-      );
-    });
-  });
-
   describe('href', () => {
+    it('should throws an error if "path" property is undefined', () => {
+      class TestRoute extends Route {}
+
+      assert.throws(
+        () => TestRoute.get().href(),
+        new UndefinedPathError(TestRoute.name).message
+      );
+    });
+
     it('should works without parameters', () => {
       const base = '/foo';
 
@@ -103,6 +60,17 @@ describe('Route', () => {
   });
 
   describe('render', () => {
+    it('should throws an error if the "component" property is undefined', () => {
+      class TestRoute extends Route {
+        public path = '/foo';
+      }
+
+      assert.throws(
+        () => TestRoute.get().render(),
+        new UndefinedComponentError(TestRoute.name).message
+      );
+    });
+
     it('should works and result component renders well', () => {
       const text = 'Hello world!';
 

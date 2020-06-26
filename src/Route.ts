@@ -1,5 +1,5 @@
 import { LazyService } from '@devim-front/service';
-import { createElement, ComponentType, ReactElement } from 'react';
+import { createElement, ReactElement } from 'react';
 import { compile } from 'path-to-regexp';
 import {
   Route as RouteComponent,
@@ -61,7 +61,7 @@ export class Route<P extends Params = void> extends LazyService<Events> {
    *
    * @throws UndefinedPathError Выбрасывается, если свойство path не указано.
    */
-  protected getPath() {
+  private getPath() {
     if (this.path == null) {
       throw new UndefinedPathError(this.constructor.name);
     }
@@ -70,18 +70,27 @@ export class Route<P extends Params = void> extends LazyService<Events> {
   }
 
   /**
+   * Компонент - обработчик маршрута, обёрнутый в служебный компонент.
+   */
+  private wrapperdComponent: Handler;
+
+  /**
    * Возвращает значение свойства component или выбрасывает исключение, если
    * оно не указано.
    *
    * @throws UndefinedComponentError Выбрасывается, если свойство component
    * не указано.
    */
-  protected getComponent() {
+  private getComponent() {
     if (this.component == null) {
       throw new UndefinedComponentError(this.constructor.name);
     }
 
-    return this.component;
+    if (this.wrapperdComponent == null) {
+      this.wrapperdComponent = withRouteWrapper(this.component);
+    }
+
+    return this.wrapperdComponent;
   }
 
   /**
@@ -115,38 +124,21 @@ export class Route<P extends Params = void> extends LazyService<Events> {
   }
 
   /**
-   * Сохранённое значение свойства "props".
-   */
-  private propsValue: {
-    component: ComponentType<any>;
-    path: string;
-    exact: boolean;
-  };
-
-  /**
-   * Коллекция свойств, пригодных для подстановки в компонент Route из
-   * библиотеки react-router.
-   */
-  private get props() {
-    if (this.propsValue == null) {
-      const component = withRouteWrapper(this.getComponent());
-      const path = this.getPath();
-      const { exact } = this;
-
-      this.propsValue = { component, exact, path };
-    }
-
-    return this.propsValue;
-  }
-
-  /**
    * Создает и возвращает элемент Route из библиотеки react-router с
    * предустановленными значениями свойств component, path и exact.
    *
    * @see https://reacttraining.com/react-router/web/api/Route
    */
   public render() {
-    return createElement(RouteComponent, this.props);
+    const component = this.getComponent();
+    const path = this.getPath();
+    const { exact } = this;
+
+    return createElement(RouteComponent, {
+      component,
+      exact,
+      path,
+    });
   }
 
   /**
@@ -158,7 +150,7 @@ export class Route<P extends Params = void> extends LazyService<Events> {
    * @param args Коллекция аргуметов, с которыми были вызваны методы
    * redirect или replace.
    */
-  private createRedirect(push: boolean, args: any[]): GoTo {
+  private goTo(push: boolean, args: any[]): GoTo {
     let rawExact: boolean | undefined = undefined;
     let rawFrom: Route<any> | string | undefined = undefined;
     let params: P = undefined as P;
@@ -263,7 +255,7 @@ export class Route<P extends Params = void> extends LazyService<Events> {
    * @param args Список аргументов.
    */
   public redirect(...args: any[]) {
-    return this.createRedirect(true, args);
+    return this.goTo(true, args);
   }
 
   /**
@@ -333,6 +325,6 @@ export class Route<P extends Params = void> extends LazyService<Events> {
    * @param args Список аргументов.
    */
   public replace(...args: any[]) {
-    return this.createRedirect(false, args);
+    return this.goTo(false, args);
   }
 }

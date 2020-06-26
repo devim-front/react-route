@@ -1,5 +1,5 @@
 import { LazyService } from '@devim-front/service';
-import { ComponentType, ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { Route as RouteComponent, RedirectProps } from 'react-router-dom';
 import { Handler } from './Handler';
 import { Events } from './Events';
@@ -42,7 +42,11 @@ export declare class Route<P extends Params = void> extends LazyService<Events> 
      *
      * @throws UndefinedPathError Выбрасывается, если свойство path не указано.
      */
-    protected getPath(): string;
+    private getPath;
+    /**
+     * Компонент - обработчик маршрута, обёрнутый в служебный компонент.
+     */
+    private wrapperdComponent;
     /**
      * Возвращает значение свойства component или выбрасывает исключение, если
      * оно не указано.
@@ -50,7 +54,7 @@ export declare class Route<P extends Params = void> extends LazyService<Events> 
      * @throws UndefinedComponentError Выбрасывается, если свойство component
      * не указано.
      */
-    protected getComponent(): ComponentType<any>;
+    private getComponent;
     /**
      * Сохраненное значение свойства compile.
      */
@@ -70,15 +74,6 @@ export declare class Route<P extends Params = void> extends LazyService<Events> 
      */
     href(params: P): string;
     /**
-     * Сохранённое значение свойства "props".
-     */
-    private propsValue;
-    /**
-     * Коллекция свойств, пригодных для подстановки в компонент Route из
-     * библиотеки react-router.
-     */
-    private get props();
-    /**
      * Создает и возвращает элемент Route из библиотеки react-router с
      * предустановленными значениями свойств component, path и exact.
      *
@@ -94,7 +89,7 @@ export declare class Route<P extends Params = void> extends LazyService<Events> 
      * @param args Коллекция аргуметов, с которыми были вызваны методы
      * redirect или replace.
      */
-    private createRedirect;
+    private goTo;
     /**
      * Возвращает элемент Redirect из библиотеки react-router, сконфигурированный
      * таким образом, чтобы вызывать перенаправление на указанный маршрут

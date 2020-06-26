@@ -35,8 +35,6 @@
 
 * [dispose](route.md#markdown-header-dispose)
 * [emit](route.md#markdown-header-protected-emit)
-* [getComponent](route.md#markdown-header-protected-getcomponent)
-* [getPath](route.md#markdown-header-protected-getpath)
 * [href](route.md#markdown-header-href)
 * [off](route.md#markdown-header-off)
 * [on](route.md#markdown-header-on)
@@ -163,33 +161,6 @@ Name | Type | Description |
 `...args` | Parameters‹Events[T]› | Аргументы, передаваемые в обработчики.  |
 
 **Returns:** *void*
-
-___
-
-### <a id="markdown-header-protected-getcomponent" name="markdown-header-protected-getcomponent"></a> `Protected` getComponent
-
-▸ **getComponent**(): *ComponentClass‹any, any› | FunctionComponent‹any›*
-
-Возвращает значение свойства component или выбрасывает исключение, если
-оно не указано.
-
-**`throws`** UndefinedComponentError Выбрасывается, если свойство component
-не указано.
-
-**Returns:** *ComponentClass‹any, any› | FunctionComponent‹any›*
-
-___
-
-### <a id="markdown-header-protected-getpath" name="markdown-header-protected-getpath"></a> `Protected` getPath
-
-▸ **getPath**(): *string*
-
-Возвращает значение свойства path или выбрасывает исключение, если оно не
-указано.
-
-**`throws`** UndefinedPathError Выбрасывается, если свойство path не указано.
-
-**Returns:** *string*
 
 ___
 
