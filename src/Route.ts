@@ -163,22 +163,19 @@ export class Route<P extends Params = void> extends LazyService<Events> {
     let rawFrom: Route<any> | string | undefined = undefined;
     let params: P = undefined as P;
 
-    switch (args.length) {
-      case 3: {
-        [rawFrom, rawExact, params] = args;
-        break;
-      }
+    let value = args.shift();
 
-      case 2: {
-        [rawFrom, params] = args;
-        break;
-      }
+    if (typeof value === 'string' || value instanceof Route) {
+      rawFrom = value;
+      value = args.shift();
 
-      default: {
-        [params] = args;
-        break;
+      if (typeof value === 'boolean') {
+        rawExact = value;
+        value = args.shift();
       }
     }
+
+    params = value;
 
     const to = this.href(params);
 
@@ -186,7 +183,7 @@ export class Route<P extends Params = void> extends LazyService<Events> {
     let from: string | undefined;
 
     if (rawFrom != null) {
-      if (typeof rawFrom !== 'string') {
+      if (rawFrom instanceof Route) {
         from = rawFrom.getPath();
         exact = rawExact == null ? rawFrom.exact : rawExact;
       } else {

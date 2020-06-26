@@ -128,25 +128,21 @@ var Route = /** @class */ (function (_super) {
         var rawExact = undefined;
         var rawFrom = undefined;
         var params = undefined;
-        switch (args.length) {
-            case 3: {
-                rawFrom = args[0], rawExact = args[1], params = args[2];
-                break;
-            }
-            case 2: {
-                rawFrom = args[0], params = args[1];
-                break;
-            }
-            default: {
-                params = args[0];
-                break;
+        var value = args.shift();
+        if (typeof value === 'string' || value instanceof Route) {
+            rawFrom = value;
+            value = args.shift();
+            if (typeof value === 'boolean') {
+                rawExact = value;
+                value = args.shift();
             }
         }
+        params = value;
         var to = this.href(params);
         var exact;
         var from;
         if (rawFrom != null) {
-            if (typeof rawFrom !== 'string') {
+            if (rawFrom instanceof Route) {
                 from = rawFrom.getPath();
                 exact = rawExact == null ? rawFrom.exact : rawExact;
             }
