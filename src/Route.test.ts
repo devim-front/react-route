@@ -6,6 +6,7 @@ import { assert } from 'chai';
 import { UndefinedComponentError } from './UndefinedComponentError';
 import { UndefinedPathError } from './UndefinedPathError';
 import { Route } from './Route';
+import { NoMatchesError } from './NoMatchesError';
 
 describe('Route', () => {
   describe('href', () => {
@@ -514,6 +515,111 @@ describe('Route', () => {
         from: FromRoute.get().path,
         exact,
       });
+    });
+  });
+
+  describe('isMatch', () => {
+    it("should returns false if the href doesn't matches with route without parameters", () => {
+      class TestRoute extends Route {
+        public path = '/foo';
+      }
+
+      const value = TestRoute.get().isMatch('/bar');
+      assert.isFalse(value);
+    });
+
+    it('should returns true if the href matches with route without parameters', () => {
+      class TestRoute extends Route {
+        public path = '/foo';
+      }
+
+      const value = TestRoute.get().isMatch('/foo');
+      assert.isTrue(value);
+    });
+
+    it('should returns false if the href matches with route but the "exact" flag is turned on', () => {
+      class TestRoute extends Route {
+        public path = '/foo';
+        public exact = true;
+      }
+
+      const value = TestRoute.get().isMatch('/foo/bar');
+      assert.isFalse(value);
+    });
+
+    it('should returns true if the href matches with route with parameters', () => {
+      type Params = { bar: string };
+
+      class TestRoute extends Route<Params> {
+        public path = '/foo/:bar';
+      }
+
+      const value = TestRoute.get().isMatch('/foo/bar');
+      assert.isTrue(value);
+    });
+
+    it("should returns false if the href doesn't match with route with parameters", () => {
+      type Params = { bar: string };
+
+      class TestRoute extends Route<Params> {
+        public path = '/foo/:bar(\\d+)';
+      }
+
+      const value = TestRoute.get().isMatch('/foo/bar');
+      assert.isFalse(value);
+    });
+
+    it("should throws an error if the path doesn't specified", () => {
+      class TestRoute extends Route {}
+
+      assert.throws(
+        () => TestRoute.get().isMatch('/foo'),
+        new UndefinedPathError(TestRoute.name).message
+      );
+    });
+  });
+
+  describe('parse', () => {
+    it("should returns undefined if route hasn't parameters", () => {
+      class TestRoute extends Route {
+        public path = '/foo';
+      }
+
+      const value = TestRoute.get().parse('/foo');
+      assert.isUndefined(value);
+    });
+
+    it('should returns an object if route has a parameters', () => {
+      type Params = { bar: string };
+
+      class TestRoute extends Route<Params> {
+        public path = '/foo/:bar';
+      }
+
+      const value = TestRoute.get().parse('/foo/bar');
+      assert.ownInclude(value, { bar: 'bar' });
+    });
+
+    it("should throws an error if the href doesn't matches with route", () => {
+      class TestRoute extends Route {
+        public path = '/foo/:bar';
+      }
+
+      assert.throws(
+        () => TestRoute.get().parse('/bar/foo'),
+        new NoMatchesError(TestRoute.get().path, '/bar/foo').message
+      );
+    });
+
+    it('should throws na error if the href doesn\'t matches with route by "exact" flag', () => {
+      class TestRoute extends Route {
+        public path = '/foo';
+      }
+
+      assert.throws(
+        () => TestRoute.get().parse('/foo/bar'),
+        new NoMatchesError(TestRoute.get().path, '/foo/bar').message
+      );
     });
   });
 });

@@ -36,8 +36,10 @@
 * [dispose](route.md#markdown-header-dispose)
 * [emit](route.md#markdown-header-protected-emit)
 * [href](route.md#markdown-header-href)
+* [isMatch](route.md#markdown-header-ismatch)
 * [off](route.md#markdown-header-off)
 * [on](route.md#markdown-header-on)
+* [parse](route.md#markdown-header-parse)
 * [redirect](route.md#markdown-header-redirect)
 * [render](route.md#markdown-header-render)
 * [replace](route.md#markdown-header-replace)
@@ -181,6 +183,23 @@ Name | Type | Description |
 
 ___
 
+### <a id="markdown-header-ismatch" name="markdown-header-ismatch"></a>  isMatch
+
+▸ **isMatch**(`href`: string): *boolean*
+
+Возвращает true, если указанный адрес страницы совпадает с маской данного
+маршрута.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`href` | string | Адрес страницы.  |
+
+**Returns:** *boolean*
+
+___
+
 ### <a id="markdown-header-off" name="markdown-header-off"></a>  off
 
 ▸ **off**‹**T**›(`event`: T, `handler`: Events[T]): *void*
@@ -224,6 +243,23 @@ Name | Type | Description |
 `handler` | Events[T] | Обработчик.  |
 
 **Returns:** *void*
+
+___
+
+### <a id="markdown-header-parse" name="markdown-header-parse"></a>  parse
+
+▸ **parse**(`href`: string): *undefined | P*
+
+Получает значения параметров маски данного машрута из указанного адреса
+или выбрасывает исключение, если адрес не соответствует маске.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`href` | string | Адрес страницы.  |
+
+**Returns:** *undefined | P*
 
 ___
 

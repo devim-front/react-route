@@ -7,6 +7,7 @@
 ### Classes
 
 * [BaseError](classes/baseerror.md)
+* [NoMatchesError](classes/nomatcheserror.md)
 * [Route](classes/route.md)
 * [UndefinedComponentError](classes/undefinedcomponenterror.md)
 * [UndefinedPathError](classes/undefinedpatherror.md)
@@ -55,7 +56,7 @@ ___
 
 ### <a id="markdown-header-params" name="markdown-header-params"></a>  Params
 
-Ƭ **Params**: *Record‹string, string | number› | void*
+Ƭ **Params**: *Record‹string, string› | void*
 
 Коллекция параметров маски адреса страницы.
 

@@ -21,6 +21,7 @@ var react_router_dom_1 = require("react-router-dom");
 var UndefinedComponentError_1 = require("./UndefinedComponentError");
 var UndefinedPathError_1 = require("./UndefinedPathError");
 var withRouteWrapper_1 = require("./withRouteWrapper");
+var NoMatchesError_1 = require("./NoMatchesError");
 /**
  * Представляет маршрут приложения.
  */
@@ -174,6 +175,87 @@ var Route = /** @class */ (function (_super) {
             args[_i] = arguments[_i];
         }
         return this.goTo(false, args);
+    };
+    Object.defineProperty(Route.prototype, "info", {
+        /**
+         * Коллекция значений, которая используется для разбора адресов страниц в
+         * соответствии с маской данного маршрута: регулярное выражение и список
+         * именованных ключей из маски.
+         */
+        get: function () {
+            if (this.infoValue == null) {
+                var keys = [];
+                var regexp = path_to_regexp_1.pathToRegexp(this.getPath(), keys);
+                this.infoValue = { regexp: regexp, keys: keys };
+            }
+            return this.infoValue;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Route.prototype, "regexp", {
+        /**
+         * Регулярное выражение, в которое преобразуется маска адресов данного
+         * маршрута.
+         */
+        get: function () {
+            return this.info.regexp;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Route.prototype, "keys", {
+        /**
+         * Список названий параметров маски адресов данного маршрута.
+         */
+        get: function () {
+            return this.info.keys;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    /**
+     * Возвращает true, если указанный адрес страницы совпадает с маской данного
+     * маршрута.
+     *
+     * @param href Адрес страницы.
+     */
+    Route.prototype.isMatch = function (href) {
+        var match = this.regexp.exec(href);
+        if (match == null) {
+            return false;
+        }
+        var base = match[0];
+        return !this.exact || base === href;
+    };
+    /**
+     * Получает значения параметров маски данного машрута из указанного адреса
+     * или выбрасывает исключение, если адрес не соответствует маске.
+     *
+     * @param href Адрес страницы.
+     */
+    Route.prototype.parse = function (href) {
+        var match = this.regexp.exec(href);
+        if (match == null) {
+            throw new NoMatchesError_1.NoMatchesError(this.getPath(), href);
+        }
+        var base = match[0], values = match.slice(1);
+        if (this.exact && base !== href) {
+            throw new NoMatchesError_1.NoMatchesError(this.getPath(), href);
+        }
+        var length = this.keys.length;
+        if (length === 0) {
+            return undefined;
+        }
+        var params = {};
+        for (var i = 0; i < length; i += 1) {
+            var key = this.keys[i];
+            var name_1 = key.name;
+            var value = values[i];
+            // @ts-ignore
+            params[name_1] = value;
+        }
+        return params;
     };
     return Route;
 }(service_1.LazyService));

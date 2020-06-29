@@ -1,6 +1,6 @@
 import { LazyService } from '@devim-front/service';
 import { createElement, ReactElement } from 'react';
-import { compile } from 'path-to-regexp';
+import { compile, pathToRegexp, Key } from 'path-to-regexp';
 import {
   Route as RouteComponent,
   RedirectProps,
@@ -13,6 +13,7 @@ import { withRouteWrapper } from './withRouteWrapper';
 import { Handler } from './Handler';
 import { Events } from './Events';
 import { Params } from './Params';
+import { NoMatchesError } from './NoMatchesError';
 
 /**
  * Функция компиляции адреса страницы из шаблона маршрута.
@@ -326,5 +327,95 @@ export class Route<P extends Params = void> extends LazyService<Events> {
    */
   public replace(...args: any[]) {
     return this.goTo(false, args);
+  }
+
+  /**
+   * Сохранённое значение свойства "parser".
+   */
+  private infoValue: { regexp: RegExp; keys: Key[] };
+
+  /**
+   * Коллекция значений, которая используется для разбора адресов страниц в
+   * соответствии с маской данного маршрута: регулярное выражение и список
+   * именованных ключей из маски.
+   */
+  private get info() {
+    if (this.infoValue == null) {
+      const keys: Key[] = [];
+      const regexp = pathToRegexp(this.getPath(), keys);
+      this.infoValue = { regexp, keys };
+    }
+
+    return this.infoValue;
+  }
+
+  /**
+   * Регулярное выражение, в которое преобразуется маска адресов данного
+   * маршрута.
+   */
+  private get regexp() {
+    return this.info.regexp;
+  }
+
+  /**
+   * Список названий параметров маски адресов данного маршрута.
+   */
+  private get keys() {
+    return this.info.keys;
+  }
+
+  /**
+   * Возвращает true, если указанный адрес страницы совпадает с маской данного
+   * маршрута.
+   *
+   * @param href Адрес страницы.
+   */
+  public isMatch(href: string) {
+    const match = this.regexp.exec(href);
+
+    if (match == null) {
+      return false;
+    }
+
+    const [base] = match;
+    return !this.exact || base === href;
+  }
+
+  /**
+   * Получает значения параметров маски данного машрута из указанного адреса
+   * или выбрасывает исключение, если адрес не соответствует маске.
+   *
+   * @param href Адрес страницы.
+   */
+  public parse(href: string) {
+    const match = this.regexp.exec(href);
+
+    if (match == null) {
+      throw new NoMatchesError(this.getPath(), href);
+    }
+
+    const [base, ...values] = match;
+
+    if (this.exact && base !== href) {
+      throw new NoMatchesError(this.getPath(), href);
+    }
+
+    const { length } = this.keys;
+
+    if (length === 0) {
+      return undefined;
+    }
+
+    const params: P = {} as P;
+
+    for (let i = 0; i < length; i += 1) {
+      const key = this.keys[i];
+      const { name } = key;
+      const value = values[i];
+      // @ts-ignore
+      params[name] = value;
+    }
+
+    return params;
   }
 }
