@@ -43,6 +43,7 @@
 * [redirect](route.md#markdown-header-redirect)
 * [render](route.md#markdown-header-render)
 * [replace](route.md#markdown-header-replace)
+* [safeParse](route.md#markdown-header-safeparse)
 * [create](route.md#markdown-header-static-protected-create)
 * [delete](route.md#markdown-header-static-delete)
 * [get](route.md#markdown-header-static-get)
@@ -248,10 +249,11 @@ ___
 
 ### <a id="markdown-header-parse" name="markdown-header-parse"></a>  parse
 
-▸ **parse**(`href`: string): *undefined | P*
+▸ **parse**(`href`: string): *P*
 
 Получает значения параметров маски данного машрута из указанного адреса
-или выбрасывает исключение, если адрес не соответствует маске.
+или выбрасывает исключение, если адрес не соответствует маске. Если
+в маске нет именованных параметров, возвращает undefined.
 
 **Parameters:**
 
@@ -259,7 +261,7 @@ Name | Type | Description |
 ------ | ------ | ------ |
 `href` | string | Адрес страницы.  |
 
-**Returns:** *undefined | P*
+**Returns:** *P*
 
 ___
 
@@ -437,6 +439,24 @@ Name | Type | Description |
 `params` | P | Коллекция именованных параметров для подстановки в маску адреса данного маршрута.  |
 
 **Returns:** *[GoTo](../README.md#markdown-header-goto)*
+
+___
+
+### <a id="markdown-header-safeparse" name="markdown-header-safeparse"></a>  safeParse
+
+▸ **safeParse**(`href`: string): *undefined | P*
+
+Получает значения параметров маски данного маршрута из указанного адреса.
+Если в маске данного маршрута нет именованных параметров, или адрес не
+совпадает с ней, возвращает undefined.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`href` | string | Адрес страницы.  |
+
+**Returns:** *undefined | P*
 
 ___
 

@@ -382,8 +382,35 @@ export class Route<P extends Params = void> extends LazyService<Events> {
   }
 
   /**
+   * Собирает список значений именованных параметров маски адреса в коллекцию.
+   *
+   * @param values Список совпадений с регулярным выражением, полученным из
+   * маски адреса.
+   */
+  private createParams(values: string[]) {
+    const { length } = this.keys;
+
+    if (length === 0) {
+      return undefined as P;
+    }
+
+    const params: P = {} as P;
+
+    for (let i = 0; i < length; i += 1) {
+      const key = this.keys[i];
+      const { name } = key;
+      const value = values[i];
+      // @ts-ignore
+      params[name] = value;
+    }
+
+    return params;
+  }
+
+  /**
    * Получает значения параметров маски данного машрута из указанного адреса
-   * или выбрасывает исключение, если адрес не соответствует маске.
+   * или выбрасывает исключение, если адрес не соответствует маске. Если
+   * в маске нет именованных параметров, возвращает undefined.
    *
    * @param href Адрес страницы.
    */
@@ -400,22 +427,29 @@ export class Route<P extends Params = void> extends LazyService<Events> {
       throw new NoMatchesError(this.getPath(), href);
     }
 
-    const { length } = this.keys;
+    return this.createParams(values);
+  }
 
-    if (length === 0) {
+  /**
+   * Получает значения параметров маски данного маршрута из указанного адреса.
+   * Если в маске данного маршрута нет именованных параметров, или адрес не
+   * совпадает с ней, возвращает undefined.
+   *
+   * @param href Адрес страницы.
+   */
+  public safeParse(href: string) {
+    const match = this.regexp.exec(href);
+
+    if (match == null) {
       return undefined;
     }
 
-    const params: P = {} as P;
+    const [base, ...values] = match;
 
-    for (let i = 0; i < length; i += 1) {
-      const key = this.keys[i];
-      const { name } = key;
-      const value = values[i];
-      // @ts-ignore
-      params[name] = value;
+    if (this.exact && base !== href) {
+      return undefined;
     }
 
-    return params;
+    return this.createParams(values);
   }
 }
