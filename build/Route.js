@@ -215,20 +215,6 @@ var Route = /** @class */ (function (_super) {
         configurable: true
     });
     /**
-     * Возвращает true, если указанный адрес страницы совпадает с маской данного
-     * маршрута.
-     *
-     * @param href Адрес страницы.
-     */
-    Route.prototype.isMatch = function (href) {
-        var match = this.regexp.exec(href);
-        if (match == null) {
-            return false;
-        }
-        var base = match[0];
-        return !this.exact || base === href;
-    };
-    /**
      * Собирает список значений именованных параметров маски адреса в коллекцию.
      *
      * @param values Список совпадений с регулярным выражением, полученным из
@@ -257,7 +243,7 @@ var Route = /** @class */ (function (_super) {
      *
      * @param href Адрес страницы.
      */
-    Route.prototype.match = function (href) {
+    Route.prototype.getValues = function (href) {
         var match = this.regexp.exec(href);
         if (match == null) {
             return undefined;
@@ -269,29 +255,35 @@ var Route = /** @class */ (function (_super) {
         return values;
     };
     /**
+     * Возвращает true, если указанный адрес страницы совпадает с маской данного
+     * маршрута.
+     *
+     * @param href Адрес страницы.
+     */
+    Route.prototype.isMatch = function (href) {
+        var values = this.getValues(href);
+        return values != null;
+    };
+    /**
      * Получает значения параметров маски данного машрута из указанного адреса
      * или выбрасывает исключение, если адрес не соответствует маске. Если
      * в маске нет именованных параметров, возвращает undefined.
      *
      * @param href Адрес страницы.
+     * @param isThrow Указывает, следует ли выбрасывать исключение, если указанный
+     * адрес страницы не соответствует маршруту. Если false, то в случае
+     * несоответствия адреса метод вернет undefined. По умолчанию true.
      */
-    Route.prototype.parse = function (href) {
-        var values = this.match(href);
+    Route.prototype.parse = function (href, isThrow) {
+        if (isThrow === void 0) { isThrow = true; }
+        var values = this.getValues(href);
         if (values == null) {
-            throw new NoMatchesError_1.NoMatchesError(this.getPath(), href);
+            if (isThrow) {
+                throw new NoMatchesError_1.NoMatchesError(this.getPath(), href);
+            }
+            return undefined;
         }
         return this.createParams(values);
-    };
-    /**
-     * Получает значения параметров маски данного маршрута из указанного адреса.
-     * Если в маске данного маршрута нет именованных параметров, или адрес не
-     * совпадает с ней, возвращает undefined.
-     *
-     * @param href Адрес страницы.
-     */
-    Route.prototype.safeParse = function (href) {
-        var values = this.match(href);
-        return values != null ? this.createParams(values) : undefined;
     };
     return Route;
 }(service_1.LazyService));

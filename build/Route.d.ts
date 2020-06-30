@@ -218,13 +218,6 @@ export declare class Route<P extends Params = void> extends LazyService<Events> 
      */
     private get keys();
     /**
-     * Возвращает true, если указанный адрес страницы совпадает с маской данного
-     * маршрута.
-     *
-     * @param href Адрес страницы.
-     */
-    isMatch(href: string): boolean;
-    /**
      * Собирает список значений именованных параметров маски адреса в коллекцию.
      *
      * @param values Список совпадений с регулярным выражением, полученным из
@@ -239,22 +232,24 @@ export declare class Route<P extends Params = void> extends LazyService<Events> 
      *
      * @param href Адрес страницы.
      */
-    private match;
+    private getValues;
+    /**
+     * Возвращает true, если указанный адрес страницы совпадает с маской данного
+     * маршрута.
+     *
+     * @param href Адрес страницы.
+     */
+    isMatch(href: string): boolean;
     /**
      * Получает значения параметров маски данного машрута из указанного адреса
      * или выбрасывает исключение, если адрес не соответствует маске. Если
      * в маске нет именованных параметров, возвращает undefined.
      *
      * @param href Адрес страницы.
+     * @param isThrow Указывает, следует ли выбрасывать исключение, если указанный
+     * адрес страницы не соответствует маршруту. Если false, то в случае
+     * несоответствия адреса метод вернет undefined. По умолчанию true.
      */
-    parse(href: string): P;
-    /**
-     * Получает значения параметров маски данного маршрута из указанного адреса.
-     * Если в маске данного маршрута нет именованных параметров, или адрес не
-     * совпадает с ней, возвращает undefined.
-     *
-     * @param href Адрес страницы.
-     */
-    safeParse(href: string): P | undefined;
+    parse(href: string, isThrow?: boolean): P | undefined;
 }
 export {};

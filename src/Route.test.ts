@@ -611,7 +611,7 @@ describe('Route', () => {
       );
     });
 
-    it('should throws an error if the href doesn\'t matches with route by "exact" flag', () => {
+    it("should throws an error if the href doesn't matches with route by 'exact' flag", () => {
       class TestRoute extends Route {
         public path = '/foo';
       }
@@ -621,44 +621,23 @@ describe('Route', () => {
         new NoMatchesError(TestRoute.get().path, '/foo/bar').message
       );
     });
-  });
 
-  describe('safeParse', () => {
-    it("should returns undefined if route hasn't parameters", () => {
+    it("should works if the href doesn't match with route but 'isThrow' is false", () => {
       class TestRoute extends Route {
         public path = '/foo';
       }
 
-      const value = TestRoute.get().safeParse('/foo');
+      const value = TestRoute.get().parse('/bar', false);
       assert.isUndefined(value);
     });
 
-    it('should returns an object if route has a parameters', () => {
-      type Params = { bar: string };
-
-      class TestRoute extends Route<Params> {
-        public path = '/foo/:bar';
-      }
-
-      const value = TestRoute.get().safeParse('/foo/bar');
-      assert.ownInclude(value, { bar: 'bar' });
-    });
-
-    it("should returns undefined if the href doesn't matches with route", () => {
-      class TestRoute extends Route {
-        public path = '/foo/:bar';
-      }
-
-      const value = TestRoute.get().safeParse('/bar/foo');
-      assert.isUndefined(value);
-    });
-
-    it('should returns undefined if the href doesn\'t matches with route by "exact" flag', () => {
+    it("should works if the href doesn't match with route by 'exact' flag but 'isThrow' is false", () => {
       class TestRoute extends Route {
         public path = '/foo';
+        public exact = true;
       }
 
-      const value = TestRoute.get().safeParse('/foo/bar');
+      const value = TestRoute.get().parse('/foo/bar', false);
       assert.isUndefined(value);
     });
   });
