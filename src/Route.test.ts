@@ -1,5 +1,5 @@
-import { createElement } from 'react';
-import { StaticRouter } from 'react-router-dom';
+import { createElement, FC } from 'react';
+import { Switch } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
 import { assert } from 'chai';
 
@@ -7,8 +7,18 @@ import { UndefinedComponentError } from './UndefinedComponentError';
 import { UndefinedPathError } from './UndefinedPathError';
 import { Route } from './Route';
 import { NoMatchesError } from './NoMatchesError';
+import { Router } from './Router';
 
 describe('Route', () => {
+  const render = (href: string, route: any) =>
+    renderToString(
+      createElement(
+        Router,
+        { url: href },
+        createElement(Switch, {}, route.get().render())
+      )
+    );
+
   describe('href', () => {
     it('should throws an error if "path" property is undefined', () => {
       class TestRoute extends Route {}
@@ -82,9 +92,7 @@ describe('Route', () => {
         public path = '/';
       }
 
-      const value = renderToString(
-        createElement(StaticRouter, {}, CustomRoute.get().render())
-      );
+      const value = render('/', CustomRoute);
 
       assert.equal(value, `<div>${text}</div>`);
     });
@@ -639,6 +647,64 @@ describe('Route', () => {
 
       const value = TestRoute.get().parse('/foo/bar', false);
       assert.isUndefined(value);
+    });
+  });
+
+  describe('isActive', () => {
+    it('should be true if location is matches with route', () => {
+      const Component: FC = () => null;
+
+      class TestRoute extends Route {
+        public component = Component;
+        public path = '/foo';
+      }
+
+      render('/foo', TestRoute);
+      assert.isTrue(TestRoute.get().isActive);
+    });
+
+    it("should be false if location doesn't match with route", () => {
+      const Component: FC = () => null;
+
+      class TestRoute extends Route {
+        public component = Component;
+        public path = '/bar';
+      }
+
+      render('/foo', TestRoute);
+      assert.isFalse(TestRoute.get().isActive);
+    });
+  });
+
+  describe('params', () => {
+    it('should be empty object if route has no parameters', () => {
+      const component: FC = () => null;
+
+      class TestRoute extends Route {
+        public component = component;
+        public path = '/';
+      }
+
+      render('/', TestRoute);
+
+      const value = TestRoute.get().params;
+      assert.ownInclude(value, {});
+    });
+
+    it('should be non-empty object if route has any parameters', () => {
+      const component: FC = () => null;
+
+      type Params = { bar: string };
+
+      class TestRoute extends Route<Params> {
+        public component = component;
+        public path = '/:bar';
+      }
+
+      render('/bar', TestRoute);
+
+      const value = TestRoute.get().params;
+      assert.ownInclude(value, { bar: 'bar' });
     });
   });
 });

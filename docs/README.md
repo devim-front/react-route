@@ -9,6 +9,7 @@
 * [BaseError](classes/baseerror.md)
 * [NoMatchesError](classes/nomatcheserror.md)
 * [Route](classes/route.md)
+* [RouterStore](classes/routerstore.md)
 * [UndefinedComponentError](classes/undefinedcomponenterror.md)
 * [UndefinedPathError](classes/undefinedpatherror.md)
 
@@ -22,9 +23,13 @@
 * [GoTo](README.md#markdown-header-goto)
 * [Handler](README.md#markdown-header-handler)
 * [Params](README.md#markdown-header-params)
+* [Props](README.md#markdown-header-props)
+* [StaticProps](README.md#markdown-header-staticprops)
 
 ### Functions
 
+* [Router](README.md#markdown-header-const-router)
+* [RouterScope](README.md#markdown-header-const-routerscope)
 * [withRouteWrapper](README.md#markdown-header-const-withroutewrapper)
 
 ## Type aliases
@@ -60,7 +65,59 @@ ___
 
 Коллекция параметров маски адреса страницы.
 
+___
+
+### <a id="markdown-header-props" name="markdown-header-props"></a>  Props
+
+Ƭ **Props**: *PropsWithChildren‹object›*
+
+Свойства компонента.
+Свойства компонента.
+
+___
+
+### <a id="markdown-header-staticprops" name="markdown-header-staticprops"></a>  StaticProps
+
+Ƭ **StaticProps**: *ComponentProps‹typeof StaticRouter›*
+
+Свойства статического роутера.
+
 ## Functions
+
+### <a id="markdown-header-const-router" name="markdown-header-const-router"></a> `Const` Router
+
+▸ **Router**(`__namedParameters`: object): *Element‹›*
+
+Объявляет контект маршрутизации приложения. Данный компонент должен быть
+подключён так, чтобы его рендер произошёл раньше, чем создаются экземпляры
+маршрутов. Желательно подключать
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`__namedParameters` | object |
+
+**Returns:** *Element‹›*
+
+___
+
+### <a id="markdown-header-const-routerscope" name="markdown-header-const-routerscope"></a> `Const` RouterScope
+
+▸ **RouterScope**(`__namedParameters`: object): *null*
+
+Обеспечивает интеграцию между хранилищами маршрутов и контекстом роутера из
+библиотеки react-router-dom.
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`__namedParameters` | object |
+
+**Returns:** *null*
+
+___
 
 ### <a id="markdown-header-const-withroutewrapper" name="markdown-header-const-withroutewrapper"></a> `Const` withRouteWrapper
 

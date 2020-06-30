@@ -12,16 +12,24 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Route = void 0;
-var service_1 = require("@devim-front/service");
+var store_1 = require("@devim-front/store");
 var react_1 = require("react");
 var path_to_regexp_1 = require("path-to-regexp");
 var react_router_dom_1 = require("react-router-dom");
+var mobx_1 = require("mobx");
 var UndefinedComponentError_1 = require("./UndefinedComponentError");
 var UndefinedPathError_1 = require("./UndefinedPathError");
 var withRouteWrapper_1 = require("./withRouteWrapper");
 var NoMatchesError_1 = require("./NoMatchesError");
+var RouterStore_1 = require("./RouterStore");
 /**
  * Представляет маршрут приложения.
  */
@@ -285,6 +293,34 @@ var Route = /** @class */ (function (_super) {
         }
         return this.createParams(values);
     };
+    Object.defineProperty(Route.prototype, "isActive", {
+        /**
+         * Указывает, что текущий адрес страницы соответствует данному маршруту.
+         */
+        get: function () {
+            return this.isMatch(RouterStore_1.RouterStore.get().href);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Route.prototype, "params", {
+        /**
+         * Коллекция значений параметров маски данного маршрута или undefined если
+         * либо текущий адрес страницы не совпадает с маской, либо в маске нет
+         * именованных параметров.
+         */
+        get: function () {
+            return this.parse(RouterStore_1.RouterStore.get().href, false) || {};
+        },
+        enumerable: false,
+        configurable: true
+    });
+    __decorate([
+        mobx_1.computed
+    ], Route.prototype, "isActive", null);
+    __decorate([
+        mobx_1.computed
+    ], Route.prototype, "params", null);
     return Route;
-}(service_1.LazyService));
+}(store_1.LazyStore));
 exports.Route = Route;

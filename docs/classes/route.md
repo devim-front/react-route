@@ -10,7 +10,7 @@
 
 ## Hierarchy
 
-* LazyService‹[Events](../interfaces/events.md)›
+* LazyStore‹[Events](../interfaces/events.md)›
 
   ↳ **Route**
 
@@ -29,6 +29,8 @@
 
 ### Accessors
 
+* [isActive](route.md#markdown-header-isactive)
+* [params](route.md#markdown-header-params)
 * [isExists](route.md#markdown-header-static-protected-isexists)
 
 ### Methods
@@ -54,7 +56,7 @@
 
 \+ **new Route**(...`_args`: any[]): *[Route](route.md)*
 
-*Inherited from [Route](route.md).[constructor](route.md#markdown-header-constructor)*
+*Inherited from [RouterStore](routerstore.md).[constructor](routerstore.md#markdown-header-constructor)*
 
 Создает экземпляр сервиса. Получить созданный экземпляр можно с помощью
 статического метода get, вызов конструктора напрямую приводит к ошибке.
@@ -108,17 +110,39 @@ ___
 
 ▪ **instance**: *any*
 
-*Inherited from [Route](route.md).[instance](route.md#markdown-header-static-protected-instance)*
+*Inherited from [RouterStore](routerstore.md).[instance](routerstore.md#markdown-header-static-protected-instance)*
 
 Экземпляр сервиса.
 
 ## Accessors
 
+### <a id="markdown-header-isactive" name="markdown-header-isactive"></a>  isActive
+
+• **get isActive**(): *boolean*
+
+Указывает, что текущий адрес страницы соответствует данному маршруту.
+
+**Returns:** *boolean*
+
+___
+
+### <a id="markdown-header-params" name="markdown-header-params"></a>  params
+
+• **get params**(): *P | object*
+
+Коллекция значений параметров маски данного маршрута или undefined если
+либо текущий адрес страницы не совпадает с маской, либо в маске нет
+именованных параметров.
+
+**Returns:** *P | object*
+
+___
+
 ### <a id="markdown-header-static-protected-isexists" name="markdown-header-static-protected-isexists"></a> `Static` `Protected` isExists
 
 • **get isExists**(): *boolean*
 
-*Inherited from [Route](route.md).[isExists](route.md#markdown-header-static-protected-isexists)*
+*Inherited from [RouterStore](routerstore.md).[isExists](routerstore.md#markdown-header-static-protected-isexists)*
 
 Указывает, что экземпляр данного класса уже был создан.
 
@@ -130,7 +154,7 @@ ___
 
 ▸ **dispose**(): *void*
 
-*Inherited from [Route](route.md).[dispose](route.md#markdown-header-dispose)*
+*Inherited from [RouterStore](routerstore.md).[dispose](routerstore.md#markdown-header-dispose)*
 
 *Overrides void*
 
@@ -147,7 +171,7 @@ ___
 
 ▸ **emit**‹**T**›(`event`: T, ...`args`: Parameters‹Events[T]›): *void*
 
-*Inherited from [Route](route.md).[emit](route.md#markdown-header-protected-emit)*
+*Inherited from [RouterStore](routerstore.md).[emit](routerstore.md#markdown-header-protected-emit)*
 
 Вызывает указанное событие, передавая аргументы в его обработчики.
 
@@ -204,7 +228,7 @@ ___
 
 ▸ **off**‹**T**›(`event`: T, `handler`: Events[T]): *void*
 
-*Inherited from [Route](route.md).[off](route.md#markdown-header-off)*
+*Inherited from [RouterStore](routerstore.md).[off](routerstore.md#markdown-header-off)*
 
 Удаляет указанный обработчик события.
 
@@ -227,7 +251,7 @@ ___
 
 ▸ **on**‹**T**›(`event`: T, `handler`: Events[T]): *void*
 
-*Inherited from [Route](route.md).[on](route.md#markdown-header-on)*
+*Inherited from [RouterStore](routerstore.md).[on](routerstore.md#markdown-header-on)*
 
 Добавляет обработчик указанному событию.
 
@@ -446,7 +470,7 @@ ___
 
 ▸ **create**‹**T**›(...`args`: ConstructorParameters‹T›): *void*
 
-*Inherited from [Route](route.md).[create](route.md#markdown-header-static-protected-create)*
+*Inherited from [RouterStore](routerstore.md).[create](routerstore.md#markdown-header-static-protected-create)*
 
 Создает экземпляр сервиса и сохраняет его. Для создания экземпляра класса
 следует использовать именно его; вызов оператора new приводит к ошибке.
@@ -469,7 +493,7 @@ ___
 
 ▸ **delete**(): *void*
 
-*Inherited from [Route](route.md).[delete](route.md#markdown-header-static-delete)*
+*Inherited from [RouterStore](routerstore.md).[delete](routerstore.md#markdown-header-static-delete)*
 
 Удаляет существующий экземпляр сервиса, освобождая все занятые им ресурсы.
 
@@ -481,7 +505,7 @@ ___
 
 ▸ **get**‹**T**›(`this`: T): *InstanceType‹T›*
 
-*Inherited from [Route](route.md).[get](route.md#markdown-header-static-get)*
+*Inherited from [RouterStore](routerstore.md).[get](routerstore.md#markdown-header-static-get)*
 
 *Overrides void*
 
@@ -506,7 +530,7 @@ ___
 
 ▸ **init**(): *void*
 
-*Inherited from [Route](route.md).[init](route.md#markdown-header-static-init)*
+*Inherited from [RouterStore](routerstore.md).[init](routerstore.md#markdown-header-static-init)*
 
 *Overrides void*
 

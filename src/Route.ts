@@ -1,4 +1,4 @@
-import { LazyService } from '@devim-front/service';
+import { LazyStore } from '@devim-front/store';
 import { createElement, ReactElement } from 'react';
 import { compile, pathToRegexp, Key } from 'path-to-regexp';
 import {
@@ -6,6 +6,7 @@ import {
   RedirectProps,
   Redirect,
 } from 'react-router-dom';
+import { computed } from 'mobx';
 
 import { UndefinedComponentError } from './UndefinedComponentError';
 import { UndefinedPathError } from './UndefinedPathError';
@@ -14,6 +15,7 @@ import { Handler } from './Handler';
 import { Events } from './Events';
 import { Params } from './Params';
 import { NoMatchesError } from './NoMatchesError';
+import { RouterStore } from './RouterStore';
 
 /**
  * Функция компиляции адреса страницы из шаблона маршрута.
@@ -29,7 +31,7 @@ type GoTo = ReactElement<RedirectProps>;
 /**
  * Представляет маршрут приложения.
  */
-export class Route<P extends Params = void> extends LazyService<Events> {
+export class Route<P extends Params = void> extends LazyStore<Events> {
   /**
    * Компонент, который обрабатывает маршрут. В отличии от свойства "component"
    * компонента Route из библиотеки react-router, в указанный компонент
@@ -447,5 +449,23 @@ export class Route<P extends Params = void> extends LazyService<Events> {
     }
 
     return this.createParams(values);
+  }
+
+  /**
+   * Указывает, что текущий адрес страницы соответствует данному маршруту.
+   */
+  @computed
+  public get isActive() {
+    return this.isMatch(RouterStore.get().href);
+  }
+
+  /**
+   * Коллекция значений параметров маски данного маршрута или undefined если
+   * либо текущий адрес страницы не совпадает с маской, либо в маске нет
+   * именованных параметров.
+   */
+  @computed
+  public get params() {
+    return this.parse(RouterStore.get().href, false) || {};
   }
 }

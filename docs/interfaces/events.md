@@ -6,7 +6,7 @@
 
 ## Hierarchy
 
-* LazyServiceEvents
+* LazyStoreEvents
 
   ↳ **Events**
 

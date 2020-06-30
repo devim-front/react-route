@@ -1,4 +1,4 @@
-import { LazyService } from '@devim-front/service';
+import { LazyStore } from '@devim-front/store';
 import { ReactElement } from 'react';
 import { Route as RouteComponent, RedirectProps } from 'react-router-dom';
 import { Handler } from './Handler';
@@ -12,7 +12,7 @@ declare type GoTo = ReactElement<RedirectProps>;
 /**
  * Представляет маршрут приложения.
  */
-export declare class Route<P extends Params = void> extends LazyService<Events> {
+export declare class Route<P extends Params = void> extends LazyStore<Events> {
     /**
      * Компонент, который обрабатывает маршрут. В отличии от свойства "component"
      * компонента Route из библиотеки react-router, в указанный компонент
@@ -251,5 +251,15 @@ export declare class Route<P extends Params = void> extends LazyService<Events> 
      * несоответствия адреса метод вернет undefined. По умолчанию true.
      */
     parse(href: string, isThrow?: boolean): P | undefined;
+    /**
+     * Указывает, что текущий адрес страницы соответствует данному маршруту.
+     */
+    get isActive(): boolean;
+    /**
+     * Коллекция значений параметров маски данного маршрута или undefined если
+     * либо текущий адрес страницы не совпадает с маской, либо в маске нет
+     * именованных параметров.
+     */
+    get params(): P | {};
 }
 export {};
