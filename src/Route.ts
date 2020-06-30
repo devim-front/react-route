@@ -408,6 +408,30 @@ export class Route<P extends Params = void> extends LazyService<Events> {
   }
 
   /**
+   * Разбирает указанный адрес с помощью регулярного выражения, полученного
+   * из маски маршрута, и возвращает массив совпавших с ним подстрок,
+   * исключая первую (сам адрес целиком). Если адрес не соответствует маске,
+   * возвращает undefined.
+   *
+   * @param href Адрес страницы.
+   */
+  private match(href: string) {
+    const match = this.regexp.exec(href);
+
+    if (match == null) {
+      return undefined;
+    }
+
+    const [base, ...values] = match;
+
+    if (this.exact && base !== href) {
+      return undefined;
+    }
+
+    return values;
+  }
+
+  /**
    * Получает значения параметров маски данного машрута из указанного адреса
    * или выбрасывает исключение, если адрес не соответствует маске. Если
    * в маске нет именованных параметров, возвращает undefined.
@@ -415,15 +439,9 @@ export class Route<P extends Params = void> extends LazyService<Events> {
    * @param href Адрес страницы.
    */
   public parse(href: string) {
-    const match = this.regexp.exec(href);
+    const values = this.match(href);
 
-    if (match == null) {
-      throw new NoMatchesError(this.getPath(), href);
-    }
-
-    const [base, ...values] = match;
-
-    if (this.exact && base !== href) {
+    if (values == null) {
       throw new NoMatchesError(this.getPath(), href);
     }
 
@@ -438,18 +456,7 @@ export class Route<P extends Params = void> extends LazyService<Events> {
    * @param href Адрес страницы.
    */
   public safeParse(href: string) {
-    const match = this.regexp.exec(href);
-
-    if (match == null) {
-      return undefined;
-    }
-
-    const [base, ...values] = match;
-
-    if (this.exact && base !== href) {
-      return undefined;
-    }
-
-    return this.createParams(values);
+    const values = this.match(href);
+    return values != null ? this.createParams(values) : undefined;
   }
 }

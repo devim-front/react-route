@@ -250,6 +250,25 @@ var Route = /** @class */ (function (_super) {
         return params;
     };
     /**
+     * Разбирает указанный адрес с помощью регулярного выражения, полученного
+     * из маски маршрута, и возвращает массив совпавших с ним подстрок,
+     * исключая первую (сам адрес целиком). Если адрес не соответствует маске,
+     * возвращает undefined.
+     *
+     * @param href Адрес страницы.
+     */
+    Route.prototype.match = function (href) {
+        var match = this.regexp.exec(href);
+        if (match == null) {
+            return undefined;
+        }
+        var base = match[0], values = match.slice(1);
+        if (this.exact && base !== href) {
+            return undefined;
+        }
+        return values;
+    };
+    /**
      * Получает значения параметров маски данного машрута из указанного адреса
      * или выбрасывает исключение, если адрес не соответствует маске. Если
      * в маске нет именованных параметров, возвращает undefined.
@@ -257,12 +276,8 @@ var Route = /** @class */ (function (_super) {
      * @param href Адрес страницы.
      */
     Route.prototype.parse = function (href) {
-        var match = this.regexp.exec(href);
-        if (match == null) {
-            throw new NoMatchesError_1.NoMatchesError(this.getPath(), href);
-        }
-        var base = match[0], values = match.slice(1);
-        if (this.exact && base !== href) {
+        var values = this.match(href);
+        if (values == null) {
             throw new NoMatchesError_1.NoMatchesError(this.getPath(), href);
         }
         return this.createParams(values);
@@ -275,15 +290,8 @@ var Route = /** @class */ (function (_super) {
      * @param href Адрес страницы.
      */
     Route.prototype.safeParse = function (href) {
-        var match = this.regexp.exec(href);
-        if (match == null) {
-            return undefined;
-        }
-        var base = match[0], values = match.slice(1);
-        if (this.exact && base !== href) {
-            return undefined;
-        }
-        return this.createParams(values);
+        var values = this.match(href);
+        return values != null ? this.createParams(values) : undefined;
     };
     return Route;
 }(service_1.LazyService));
