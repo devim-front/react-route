@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren, ComponentProps } from 'react';
+import React, { FC, ComponentProps, ReactNode } from 'react';
 import { BrowserRouter, StaticRouter } from 'react-router-dom';
 
 import { RouterScope } from './RouterScope';
@@ -11,7 +11,7 @@ type StaticProps = ComponentProps<typeof StaticRouter>;
 /**
  * Свойства компонента.
  */
-type Props = PropsWithChildren<{
+type Props = {
   /**
    * Путь к корню сайта. Данное свойство используется, если корень сайта
    * расположен не по обычному адресу "/", а в подкаталоге (например,
@@ -34,7 +34,12 @@ type Props = PropsWithChildren<{
    * свойства.
    */
   context?: StaticProps['context'];
-}>;
+
+  /**
+   * Содержимое элемента.
+   */
+  children?: ReactNode;
+};
 
 /**
  * Объявляет контект маршрутизации приложения. Данный компонент должен быть
@@ -44,15 +49,18 @@ type Props = PropsWithChildren<{
 export const Router: FC<Props> = ({ url, context, children, ...props }) => {
   const isServer = typeof window === 'undefined';
 
+  const content = (
+    <>
+      <RouterScope />
+      {children}
+    </>
+  );
+
   return isServer ? (
     <StaticRouter {...props} context={context} location={url}>
-      <RouterScope />
-      {children}
+      {content}
     </StaticRouter>
   ) : (
-    <BrowserRouter {...props}>
-      <RouterScope />
-      {children}
-    </BrowserRouter>
+    <BrowserRouter {...props}>{content}</BrowserRouter>
   );
 };

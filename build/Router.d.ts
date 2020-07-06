@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, ComponentProps } from 'react';
+import { FC, ComponentProps, ReactNode } from 'react';
 import { StaticRouter } from 'react-router-dom';
 /**
  * Свойства статического роутера.
@@ -7,7 +7,7 @@ declare type StaticProps = ComponentProps<typeof StaticRouter>;
 /**
  * Свойства компонента.
  */
-declare type Props = PropsWithChildren<{
+declare type Props = {
     /**
      * Путь к корню сайта. Данное свойство используется, если корень сайта
      * расположен не по обычному адресу "/", а в подкаталоге (например,
@@ -28,7 +28,11 @@ declare type Props = PropsWithChildren<{
      * свойства.
      */
     context?: StaticProps['context'];
-}>;
+    /**
+     * Содержимое элемента.
+     */
+    children?: ReactNode;
+};
 /**
  * Объявляет контект маршрутизации приложения. Данный компонент должен быть
  * подключён так, чтобы его рендер произошёл раньше, чем создаются экземпляры

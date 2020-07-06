@@ -37,9 +37,8 @@ var RouterScope_1 = require("./RouterScope");
 exports.Router = function (_a) {
     var url = _a.url, context = _a.context, children = _a.children, props = __rest(_a, ["url", "context", "children"]);
     var isServer = typeof window === 'undefined';
-    return isServer ? (react_1.default.createElement(react_router_dom_1.StaticRouter, __assign({}, props, { context: context, location: url }),
-        react_1.default.createElement(RouterScope_1.RouterScope, null),
-        children)) : (react_1.default.createElement(react_router_dom_1.BrowserRouter, __assign({}, props),
+    var content = (react_1.default.createElement(react_1.default.Fragment, null,
         react_1.default.createElement(RouterScope_1.RouterScope, null),
         children));
+    return isServer ? (react_1.default.createElement(react_router_dom_1.StaticRouter, __assign({}, props, { context: context, location: url }), content)) : (react_1.default.createElement(react_router_dom_1.BrowserRouter, __assign({}, props), content));
 };

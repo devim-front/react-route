@@ -69,10 +69,20 @@ ___
 
 ### <a id="markdown-header-props" name="markdown-header-props"></a>  Props
 
-Ƭ **Props**: *PropsWithChildren‹object›*
+Ƭ **Props**: *object*
 
 Свойства компонента.
 Свойства компонента.
+
+#### Type declaration:
+
+* **basename**? : *undefined | string*
+
+* **children**? : *ReactNode*
+
+* **context**? : *StaticProps["context"]*
+
+* **url**? : *StaticProps["location"]*
 
 ___
 
