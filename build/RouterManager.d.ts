@@ -1,9 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, ComponentProps } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import { Router } from './Router';
 /**
  * Свойства компонента.
  */
-declare type Props = RouteComponentProps;
+declare type Props = Omit<RouteComponentProps, 'staticContext'> & {
+    /**
+     * Статический контекст роутера при запуске приложения на NodeJS.
+     */
+    staticContext?: ComponentProps<typeof Router>['context'];
+};
 /**
  * Обеспечивает интеграцию между хранилищами маршрутов и контекстом роутера из
  * библиотеки react-router-dom.
@@ -15,17 +21,14 @@ declare class RouterManager extends Component<Props> {
      */
     previousPathname: string;
     /**
-     * Содержит адрес, на который следует выполнить перенаправление в текущем
-     * цикле переотрисовки. Если перенаправление не нужно, свойство равно
-     * undefined.
+     * Возвращает элемент, который вызывает перенаправление на указанный адрес,
+     * или генерирует перенаправление программно, если оно идёт на другой ресурс.
+     *
+     * @param redirect Адрес, на который должно произойти перенаправление.
+     * @param push Указывает, следует ли делать запись в истории при этом
+     * перенаправлении.
      */
-    get redirect(): string | undefined;
-    /**
-     * Указывает, что при перенаправлении в текущем цикле переотрисовки нужно
-     * сделать запись в браузерной истории. Если перенаправление не нужно,
-     * свойство равно undefined.
-     */
-    get push(): boolean | undefined;
+    private renderRedirect;
     /**
      * @inheritdoc
      */

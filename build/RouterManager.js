@@ -41,7 +41,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RouterManager = void 0;
 var react_1 = __importStar(require("react"));
 var react_router_dom_1 = require("react-router-dom");
-var mobx_1 = require("mobx");
 var mobx_react_1 = require("mobx-react");
 var RouterStore_1 = require("./RouterStore");
 /**
@@ -53,53 +52,48 @@ var RouterManager = /** @class */ (function (_super) {
     function RouterManager() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    Object.defineProperty(RouterManager.prototype, "redirect", {
-        /**
-         * Содержит адрес, на который следует выполнить перенаправление в текущем
-         * цикле переотрисовки. Если перенаправление не нужно, свойство равно
-         * undefined.
-         */
-        get: function () {
-            return RouterStore_1.RouterStore.get().redirect;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(RouterManager.prototype, "push", {
-        /**
-         * Указывает, что при перенаправлении в текущем цикле переотрисовки нужно
-         * сделать запись в браузерной истории. Если перенаправление не нужно,
-         * свойство равно undefined.
-         */
-        get: function () {
-            return RouterStore_1.RouterStore.get().push;
-        },
-        enumerable: false,
-        configurable: true
-    });
+    /**
+     * Возвращает элемент, который вызывает перенаправление на указанный адрес,
+     * или генерирует перенаправление программно, если оно идёт на другой ресурс.
+     *
+     * @param redirect Адрес, на который должно произойти перенаправление.
+     * @param push Указывает, следует ли делать запись в истории при этом
+     * перенаправлении.
+     */
+    RouterManager.prototype.renderRedirect = function (redirect, push) {
+        var staticContext = this.props.staticContext;
+        RouterStore_1.RouterStore.get().setRedirect(undefined);
+        if (typeof window == 'undefined') {
+            if (staticContext) {
+                staticContext.action = push ? 'PUSH' : 'REPLACE';
+                staticContext.url = redirect;
+                staticContext.statusCode = 301;
+            }
+            return null;
+        }
+        var isExternal = redirect.indexOf('//') >= 0;
+        if (isExternal) {
+            window.location.href = redirect;
+            return null;
+        }
+        return react_1.default.createElement(react_router_dom_1.Redirect, { to: redirect, push: push });
+    };
     /**
      * @inheritdoc
      */
     RouterManager.prototype.render = function () {
+        var _a = RouterStore_1.RouterStore.get(), redirect = _a.redirect, push = _a.push;
+        if (redirect != null) {
+            return this.renderRedirect(redirect, push);
+        }
         var location = this.props.location;
         var pathname = location.pathname;
-        var _a = this, redirect = _a.redirect, push = _a.push;
-        if (redirect != null) {
-            RouterStore_1.RouterStore.get().setRedirect(undefined);
-            return react_1.default.createElement(react_router_dom_1.Redirect, { to: redirect, push: push });
-        }
         if (this.previousPathname !== pathname) {
             this.previousPathname = pathname;
             RouterStore_1.RouterStore.get().setHref(pathname);
         }
         return null;
     };
-    __decorate([
-        mobx_1.computed
-    ], RouterManager.prototype, "redirect", null);
-    __decorate([
-        mobx_1.computed
-    ], RouterManager.prototype, "push", null);
     RouterManager = __decorate([
         mobx_react_1.observer
     ], RouterManager);

@@ -1,14 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component, ComponentProps } from 'react';
 import { withRouter, RouteComponentProps, Redirect } from 'react-router-dom';
-import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 
 import { RouterStore } from './RouterStore';
+import { Router } from './Router';
 
 /**
  * Свойства компонента.
  */
-type Props = RouteComponentProps;
+type Props = Omit<RouteComponentProps, 'staticContext'> & {
+  /**
+   * Статический контекст роутера при запуске приложения на NodeJS.
+   */
+  staticContext?: ComponentProps<typeof Router>['context'];
+};
 
 /**
  * Обеспечивает интеграцию между хранилищами маршрутов и контекстом роутера из
@@ -23,38 +28,50 @@ class RouterManager extends Component<Props> {
   previousPathname: string;
 
   /**
-   * Содержит адрес, на который следует выполнить перенаправление в текущем
-   * цикле переотрисовки. Если перенаправление не нужно, свойство равно
-   * undefined.
+   * Возвращает элемент, который вызывает перенаправление на указанный адрес,
+   * или генерирует перенаправление программно, если оно идёт на другой ресурс.
+   *
+   * @param redirect Адрес, на который должно произойти перенаправление.
+   * @param push Указывает, следует ли делать запись в истории при этом
+   * перенаправлении.
    */
-  @computed
-  get redirect() {
-    return RouterStore.get().redirect;
-  }
+  private renderRedirect(redirect: string, push: boolean) {
+    const { staticContext } = this.props;
 
-  /**
-   * Указывает, что при перенаправлении в текущем цикле переотрисовки нужно
-   * сделать запись в браузерной истории. Если перенаправление не нужно,
-   * свойство равно undefined.
-   */
-  @computed
-  get push() {
-    return RouterStore.get().push;
+    RouterStore.get().setRedirect(undefined);
+
+    if (typeof window == 'undefined') {
+      if (staticContext) {
+        staticContext.action = push ? 'PUSH' : 'REPLACE';
+        staticContext.url = redirect;
+        staticContext.statusCode = 301;
+      }
+
+      return null;
+    }
+
+    const isExternal = redirect.indexOf('//') >= 0;
+
+    if (isExternal) {
+      window.location.href = redirect;
+      return null;
+    }
+
+    return <Redirect to={redirect} push={push} />;
   }
 
   /**
    * @inheritdoc
    */
   public render() {
-    const { location } = this.props;
-    const { pathname } = location;
-
-    const { redirect, push } = this;
+    const { redirect, push } = RouterStore.get();
 
     if (redirect != null) {
-      RouterStore.get().setRedirect(undefined);
-      return <Redirect to={redirect} push={push} />;
+      return this.renderRedirect(redirect, push as boolean);
     }
+
+    const { location } = this.props;
+    const { pathname } = location;
 
     if (this.previousPathname !== pathname) {
       this.previousPathname = pathname;
