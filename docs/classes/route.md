@@ -36,6 +36,8 @@
 ### Methods
 
 * [dispose](route.md#markdown-header-dispose)
+* [doRedirect](route.md#markdown-header-doredirect)
+* [doReplace](route.md#markdown-header-doreplace)
 * [emit](route.md#markdown-header-protected-emit)
 * [href](route.md#markdown-header-href)
 * [isMatch](route.md#markdown-header-ismatch)
@@ -56,7 +58,7 @@
 
 \+ **new Route**(...`_args`: any[]): *[Route](route.md)*
 
-*Inherited from [RouterStore](routerstore.md).[constructor](routerstore.md#markdown-header-constructor)*
+*Inherited from void*
 
 Создает экземпляр сервиса. Получить созданный экземпляр можно с помощью
 статического метода get, вызов конструктора напрямую приводит к ошибке.
@@ -110,7 +112,7 @@ ___
 
 ▪ **instance**: *any*
 
-*Inherited from [RouterStore](routerstore.md).[instance](routerstore.md#markdown-header-static-protected-instance)*
+*Inherited from void*
 
 Экземпляр сервиса.
 
@@ -142,7 +144,7 @@ ___
 
 • **get isExists**(): *boolean*
 
-*Inherited from [RouterStore](routerstore.md).[isExists](routerstore.md#markdown-header-static-protected-isexists)*
+*Inherited from void*
 
 Указывает, что экземпляр данного класса уже был создан.
 
@@ -154,7 +156,7 @@ ___
 
 ▸ **dispose**(): *void*
 
-*Inherited from [RouterStore](routerstore.md).[dispose](routerstore.md#markdown-header-dispose)*
+*Inherited from void*
 
 *Overrides void*
 
@@ -167,11 +169,45 @@ ___
 
 ___
 
+### <a id="markdown-header-doredirect" name="markdown-header-doredirect"></a>  doRedirect
+
+▸ **doRedirect**(`params`: P): *void*
+
+Вызывает перенаправление на адрес, полученный в резульате подстановки
+указанной коллекции параметров в маску данного маршрута.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`params` | P | Коллекция именованных параметров для подстановки в маску адреса данного маршрута.  |
+
+**Returns:** *void*
+
+___
+
+### <a id="markdown-header-doreplace" name="markdown-header-doreplace"></a>  doReplace
+
+▸ **doReplace**(`params`: P): *void*
+
+Вызывает перенаправление на адрес, полученный в результате подстановки
+указанной коллекции параметров в маску данного маршрута.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`params` | P | Коллекция именованных параметров для подстановки в маску данного маршрута.  |
+
+**Returns:** *void*
+
+___
+
 ### <a id="markdown-header-protected-emit" name="markdown-header-protected-emit"></a> `Protected` emit
 
 ▸ **emit**‹**T**›(`event`: T, ...`args`: Parameters‹Events[T]›): *void*
 
-*Inherited from [RouterStore](routerstore.md).[emit](routerstore.md#markdown-header-protected-emit)*
+*Inherited from void*
 
 Вызывает указанное событие, передавая аргументы в его обработчики.
 
@@ -228,7 +264,7 @@ ___
 
 ▸ **off**‹**T**›(`event`: T, `handler`: Events[T]): *void*
 
-*Inherited from [RouterStore](routerstore.md).[off](routerstore.md#markdown-header-off)*
+*Inherited from void*
 
 Удаляет указанный обработчик события.
 
@@ -251,7 +287,7 @@ ___
 
 ▸ **on**‹**T**›(`event`: T, `handler`: Events[T]): *void*
 
-*Inherited from [RouterStore](routerstore.md).[on](routerstore.md#markdown-header-on)*
+*Inherited from void*
 
 Добавляет обработчик указанному событию.
 
@@ -470,7 +506,7 @@ ___
 
 ▸ **create**‹**T**›(...`args`: ConstructorParameters‹T›): *void*
 
-*Inherited from [RouterStore](routerstore.md).[create](routerstore.md#markdown-header-static-protected-create)*
+*Inherited from void*
 
 Создает экземпляр сервиса и сохраняет его. Для создания экземпляра класса
 следует использовать именно его; вызов оператора new приводит к ошибке.
@@ -493,7 +529,7 @@ ___
 
 ▸ **delete**(): *void*
 
-*Inherited from [RouterStore](routerstore.md).[delete](routerstore.md#markdown-header-static-delete)*
+*Inherited from void*
 
 Удаляет существующий экземпляр сервиса, освобождая все занятые им ресурсы.
 
@@ -505,7 +541,7 @@ ___
 
 ▸ **get**‹**T**›(`this`: T): *InstanceType‹T›*
 
-*Inherited from [RouterStore](routerstore.md).[get](routerstore.md#markdown-header-static-get)*
+*Inherited from void*
 
 *Overrides void*
 
@@ -530,7 +566,7 @@ ___
 
 ▸ **init**(): *void*
 
-*Inherited from [RouterStore](routerstore.md).[init](routerstore.md#markdown-header-static-init)*
+*Inherited from void*
 
 *Overrides void*
 

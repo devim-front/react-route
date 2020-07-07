@@ -468,4 +468,28 @@ export class Route<P extends Params = void> extends LazyStore<Events> {
   public get params() {
     return this.parse(RouterStore.get().href, false) || {};
   }
+
+  /**
+   * Вызывает перенаправление на адрес, полученный в резульате подстановки
+   * указанной коллекции параметров в маску данного маршрута.
+   *
+   * @param params Коллекция именованных параметров для подстановки в маску
+   * адреса данного маршрута.
+   */
+  public doRedirect(params: P) {
+    const href = this.href(params);
+    RouterStore.get().setRedirect(href, true);
+  }
+
+  /**
+   * Вызывает перенаправление на адрес, полученный в результате подстановки
+   * указанной коллекции параметров в маску данного маршрута.
+   *
+   * @param params Коллекция именованных параметров для подстановки
+   * в маску данного маршрута.
+   */
+  public doReplace(params: P) {
+    const href = this.href(params);
+    RouterStore.get().setRedirect(href, false);
+  }
 }

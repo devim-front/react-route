@@ -32,6 +32,11 @@
 * [refs](routermanager.md#markdown-header-refs)
 * [contextType](routermanager.md#markdown-header-static-optional-contexttype)
 
+### Accessors
+
+* [push](routermanager.md#markdown-header-push)
+* [redirect](routermanager.md#markdown-header-redirect)
+
 ### Methods
 
 * [UNSAFE_componentWillMount](routermanager.md#markdown-header-optional-unsafe_componentwillmount)
@@ -141,6 +146,30 @@ class Foo extends React.Component {
 ```
 
 **`see`** https://reactjs.org/docs/context.html#classcontexttype
+
+## Accessors
+
+### <a id="markdown-header-push" name="markdown-header-push"></a>  push
+
+• **get push**(): *undefined | false | true*
+
+Указывает, что при перенаправлении в текущем цикле переотрисовки нужно
+сделать запись в браузерной истории. Если перенаправление не нужно,
+свойство равно undefined.
+
+**Returns:** *undefined | false | true*
+
+___
+
+### <a id="markdown-header-redirect" name="markdown-header-redirect"></a>  redirect
+
+• **get redirect**(): *undefined | string*
+
+Содержит адрес, на который следует выполнить перенаправление в текущем
+цикле переотрисовки. Если перенаправление не нужно, свойство равно
+undefined.
+
+**Returns:** *undefined | string*
 
 ## Methods
 
@@ -413,11 +442,11 @@ ___
 
 ### <a id="markdown-header-render" name="markdown-header-render"></a>  render
 
-▸ **render**(): *null*
+▸ **render**(): *null | Element‹›*
 
 **`inheritdoc`** 
 
-**Returns:** *null*
+**Returns:** *null | Element‹›*
 
 ___
 

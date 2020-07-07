@@ -315,6 +315,28 @@ var Route = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
+    /**
+     * Вызывает перенаправление на адрес, полученный в резульате подстановки
+     * указанной коллекции параметров в маску данного маршрута.
+     *
+     * @param params Коллекция именованных параметров для подстановки в маску
+     * адреса данного маршрута.
+     */
+    Route.prototype.doRedirect = function (params) {
+        var href = this.href(params);
+        RouterStore_1.RouterStore.get().setRedirect(href, true);
+    };
+    /**
+     * Вызывает перенаправление на адрес, полученный в результате подстановки
+     * указанной коллекции параметров в маску данного маршрута.
+     *
+     * @param params Коллекция именованных параметров для подстановки
+     * в маску данного маршрута.
+     */
+    Route.prototype.doReplace = function (params) {
+        var href = this.href(params);
+        RouterStore_1.RouterStore.get().setRedirect(href, false);
+    };
     __decorate([
         mobx_1.computed
     ], Route.prototype, "isActive", null);

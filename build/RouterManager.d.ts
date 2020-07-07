@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 /**
  * Свойства компонента.
@@ -15,11 +15,23 @@ declare class RouterManager extends Component<Props> {
      */
     previousPathname: string;
     /**
+     * Содержит адрес, на который следует выполнить перенаправление в текущем
+     * цикле переотрисовки. Если перенаправление не нужно, свойство равно
+     * undefined.
+     */
+    get redirect(): string | undefined;
+    /**
+     * Указывает, что при перенаправлении в текущем цикле переотрисовки нужно
+     * сделать запись в браузерной истории. Если перенаправление не нужно,
+     * свойство равно undefined.
+     */
+    get push(): boolean | undefined;
+    /**
      * @inheritdoc
      */
-    render(): null;
+    render(): JSX.Element | null;
 }
-declare const component: import("react").ComponentClass<Pick<Props, never> & {
-    wrappedComponentRef?: ((instance: RouterManager | null) => void) | import("react").RefObject<RouterManager> | null | undefined;
+declare const component: React.ComponentClass<Pick<Props, never> & {
+    wrappedComponentRef?: ((instance: RouterManager | null) => void) | React.RefObject<RouterManager> | null | undefined;
 }, any> & import("react-router").WithRouterStatics<typeof RouterManager>;
 export { component as RouterManager };

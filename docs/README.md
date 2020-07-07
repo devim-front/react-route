@@ -10,7 +10,6 @@
 * [NoMatchesError](classes/nomatcheserror.md)
 * [Route](classes/route.md)
 * [RouterManager](classes/routermanager.md)
-* [RouterStore](classes/routerstore.md)
 * [UndefinedComponentError](classes/undefinedcomponenterror.md)
 * [UndefinedPathError](classes/undefinedpatherror.md)
 

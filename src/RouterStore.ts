@@ -3,6 +3,8 @@ import { observable, computed, action } from 'mobx';
 
 /**
  * Хранилище состояния маршрутизатора.
+ *
+ * @internal
  */
 export class RouterStore extends LazyStore {
   /**
@@ -28,5 +30,40 @@ export class RouterStore extends LazyStore {
   @action
   public setHref(href: string) {
     this.hrefValue = href;
+  }
+
+  /**
+   * Адрес, на который должен быть перенаправлен пользователь в данный момент.
+   * Если перенаправления нет, то undefined.
+   */
+  @observable
+  public redirect: string | undefined;
+
+  /**
+   * Показывает, следует ли делать запись в истории браузера при перенаправлении
+   * на адрес, указанный в свойстве "redirect".
+   */
+  @observable
+  public push: boolean | undefined;
+
+  /**
+   * Задает адрес страницы, на которую нужно перейти в следующем цикле отрисовки
+   * приложения.
+   *
+   * @param href Адрес страницы.
+   * @param push Указывает, следует ли делать запись в браузерной истории
+   * об этом перенаправлении.
+   */
+  @action
+  public setRedirect(href: string | undefined, push: boolean = false) {
+    if (href == null) {
+      this.redirect = undefined;
+      this.push = undefined;
+
+      return;
+    }
+
+    this.redirect = href;
+    this.push = push;
   }
 }

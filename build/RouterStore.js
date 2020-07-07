@@ -24,6 +24,8 @@ var store_1 = require("@devim-front/store");
 var mobx_1 = require("mobx");
 /**
  * Хранилище состояния маршрутизатора.
+ *
+ * @internal
  */
 var RouterStore = /** @class */ (function (_super) {
     __extends(RouterStore, _super);
@@ -48,6 +50,24 @@ var RouterStore = /** @class */ (function (_super) {
     RouterStore.prototype.setHref = function (href) {
         this.hrefValue = href;
     };
+    /**
+     * Задает адрес страницы, на которую нужно перейти в следующем цикле отрисовки
+     * приложения.
+     *
+     * @param href Адрес страницы.
+     * @param push Указывает, следует ли делать запись в браузерной истории
+     * об этом перенаправлении.
+     */
+    RouterStore.prototype.setRedirect = function (href, push) {
+        if (push === void 0) { push = false; }
+        if (href == null) {
+            this.redirect = undefined;
+            this.push = undefined;
+            return;
+        }
+        this.redirect = href;
+        this.push = push;
+    };
     __decorate([
         mobx_1.observable
     ], RouterStore.prototype, "hrefValue", void 0);
@@ -57,6 +77,15 @@ var RouterStore = /** @class */ (function (_super) {
     __decorate([
         mobx_1.action
     ], RouterStore.prototype, "setHref", null);
+    __decorate([
+        mobx_1.observable
+    ], RouterStore.prototype, "redirect", void 0);
+    __decorate([
+        mobx_1.observable
+    ], RouterStore.prototype, "push", void 0);
+    __decorate([
+        mobx_1.action
+    ], RouterStore.prototype, "setRedirect", null);
     return RouterStore;
 }(store_1.LazyStore));
 exports.RouterStore = RouterStore;
