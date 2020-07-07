@@ -9,6 +9,7 @@
 * [BaseError](classes/baseerror.md)
 * [NoMatchesError](classes/nomatcheserror.md)
 * [Route](classes/route.md)
+* [RouterManager](classes/routermanager.md)
 * [RouterStore](classes/routerstore.md)
 * [UndefinedComponentError](classes/undefinedcomponenterror.md)
 * [UndefinedPathError](classes/undefinedpatherror.md)
@@ -29,7 +30,6 @@
 ### Functions
 
 * [Router](README.md#markdown-header-const-router)
-* [RouterScope](README.md#markdown-header-const-routerscope)
 * [withRouteWrapper](README.md#markdown-header-const-withroutewrapper)
 
 ## Type aliases
@@ -76,11 +76,15 @@ ___
 
 #### Type declaration:
 
+* **application**? : *ComponentType‹any›*
+
 * **basename**? : *undefined | string*
 
-* **children**? : *ReactNode*
-
 * **context**? : *StaticProps["context"]*
+
+* **hash**? : *undefined | false | true*
+
+* **notFound**? : *ComponentType‹any›*
 
 * **url**? : *StaticProps["location"]*
 
@@ -98,9 +102,12 @@ ___
 
 ▸ **Router**(`__namedParameters`: object): *Element‹›*
 
-Объявляет контект маршрутизации приложения. Данный компонент должен быть
-подключён так, чтобы его рендер произошёл раньше, чем создаются экземпляры
-маршрутов. Желательно подключать
+Помещает указанный в свойстве "component" компонент в контекст
+маршрутизатора, и отображает его.
+
+Компонент способен определять, в какой среде выполнения он запустился. На
+NodeJS он использует StaticRouter, в браузере - либо BrowserRouter, либо
+HashRouter (в зависимости от значения свойства "hash").
 
 **Parameters:**
 
@@ -109,23 +116,6 @@ Name | Type |
 `__namedParameters` | object |
 
 **Returns:** *Element‹›*
-
-___
-
-### <a id="markdown-header-const-routerscope" name="markdown-header-const-routerscope"></a> `Const` RouterScope
-
-▸ **RouterScope**(`__namedParameters`: object): *null*
-
-Обеспечивает интеграцию между хранилищами маршрутов и контекстом роутера из
-библиотеки react-router-dom.
-
-**Parameters:**
-
-Name | Type |
------- | ------ |
-`__namedParameters` | object |
-
-**Returns:** *null*
 
 ___
 

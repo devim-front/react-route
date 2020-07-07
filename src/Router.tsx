@@ -1,7 +1,7 @@
-import React, { FC, ComponentProps, ReactNode } from 'react';
-import { BrowserRouter, StaticRouter } from 'react-router-dom';
+import React, { FC, ComponentProps, ComponentType, createElement } from 'react';
+import { BrowserRouter, StaticRouter, HashRouter } from 'react-router-dom';
 
-import { RouterScope } from './RouterScope';
+import { RouterManager } from './RouterManager';
 
 /**
  * Свойства статического роутера.
@@ -36,30 +36,62 @@ type Props = {
   context?: StaticProps['context'];
 
   /**
-   * Содержимое элемента.
+   * Указывает, что при запуске этого компонента в браузере, в качестве
+   * контекста маршрутизатора следует использовать не BrowserRouter, а
+   * HashRouter.
+   *
+   * @see https://reactrouter.com/web/api/HashRouter
    */
-  children?: ReactNode;
+  hash?: boolean;
+
+  /**
+   * Корневой компонент приложения, использующего маршрутизацию.
+   */
+  application?: ComponentType<any>;
+
+  /**
+   * Корневой компонент страницы, которая показывается в случае если адрес
+   * страницы не обработан никем (иными словами, страница не найдена).
+   */
+  notFound?: ComponentType<any>;
 };
 
 /**
- * Объявляет контект маршрутизации приложения. Данный компонент должен быть
- * подключён так, чтобы его рендер произошёл раньше, чем создаются экземпляры
- * маршрутов. Желательно подключать
+ * Помещает указанный в свойстве "component" компонент в контекст
+ * маршрутизатора, и отображает его.
+ *
+ * Компонент способен определять, в какой среде выполнения он запустился. На
+ * NodeJS он использует StaticRouter, в браузере - либо BrowserRouter, либо
+ * HashRouter (в зависимости от значения свойства "hash").
  */
-export const Router: FC<Props> = ({ url, context, children, ...props }) => {
+export const Router: FC<Props> = ({
+  url,
+  context,
+  children,
+  hash = false,
+  application,
+  notFound,
+  ...props
+}) => {
   const isServer = typeof window === 'undefined';
 
   const content = (
     <>
-      <RouterScope />
-      {children}
+      <RouterManager />
+      {application ? createElement(application) : null}
     </>
   );
 
-  return isServer ? (
-    <StaticRouter {...props} context={context} location={url}>
-      {content}
-    </StaticRouter>
+  if (isServer) {
+    return (
+      <StaticRouter {...props} context={context} location={url}>
+        {content}
+      </StaticRouter>
+    );
+  }
+
+  return hash ? (
+    <HashRouter {...props}>{content}</HashRouter>
   ) : (
     <BrowserRouter {...props}>{content}</BrowserRouter>
   );

@@ -1,4 +1,4 @@
-import { FC, ComponentProps, ReactNode } from 'react';
+import { FC, ComponentProps, ComponentType } from 'react';
 import { StaticRouter } from 'react-router-dom';
 /**
  * Свойства статического роутера.
@@ -29,14 +29,30 @@ declare type Props = {
      */
     context?: StaticProps['context'];
     /**
-     * Содержимое элемента.
+     * Указывает, что при запуске этого компонента в браузере, в качестве
+     * контекста маршрутизатора следует использовать не BrowserRouter, а
+     * HashRouter.
+     *
+     * @see https://reactrouter.com/web/api/HashRouter
      */
-    children?: ReactNode;
+    hash?: boolean;
+    /**
+     * Корневой компонент приложения, использующего маршрутизацию.
+     */
+    application?: ComponentType<any>;
+    /**
+     * Корневой компонент страницы, которая показывается в случае если адрес
+     * страницы не обработан никем (иными словами, страница не найдена).
+     */
+    notFound?: ComponentType<any>;
 };
 /**
- * Объявляет контект маршрутизации приложения. Данный компонент должен быть
- * подключён так, чтобы его рендер произошёл раньше, чем создаются экземпляры
- * маршрутов. Желательно подключать
+ * Помещает указанный в свойстве "component" компонент в контекст
+ * маршрутизатора, и отображает его.
+ *
+ * Компонент способен определять, в какой среде выполнения он запустился. На
+ * NodeJS он использует StaticRouter, в браузере - либо BrowserRouter, либо
+ * HashRouter (в зависимости от значения свойства "hash").
  */
 export declare const Router: FC<Props>;
 export {};

@@ -10,14 +10,10 @@ import { NoMatchesError } from './NoMatchesError';
 import { Router } from './Router';
 
 describe('Route', () => {
-  const render = (href: string, route: any) =>
-    renderToString(
-      createElement(
-        Router,
-        { url: href },
-        createElement(Switch, {}, route.get().render())
-      )
-    );
+  const render = (href: string, route: any) => {
+    const application = () => createElement(Switch, {}, route.get().render());
+    return renderToString(createElement(Router, { application, url: href }));
+  };
 
   describe('href', () => {
     it('should throws an error if "path" property is undefined', () => {
