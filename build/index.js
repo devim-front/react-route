@@ -11,5 +11,6 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./Route"), exports);
+__exportStar(require("./Router"), exports);
 __exportStar(require("./UndefinedComponentError"), exports);
 __exportStar(require("./UndefinedPathError"), exports);
