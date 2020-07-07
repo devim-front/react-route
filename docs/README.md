@@ -81,9 +81,9 @@ ___
 
 * **context**? : *StaticProps["context"]*
 
-* **hash**? : *undefined | false | true*
+* **fallback**? : *ComponentType‹any›*
 
-* **notFound**? : *ComponentType‹any›*
+* **hash**? : *undefined | false | true*
 
 * **url**? : *StaticProps["location"]*
 
@@ -101,10 +101,10 @@ ___
 
 ▸ **Router**(`__namedParameters`: object): *Element‹›*
 
-Помещает указанный в свойстве "component" компонент в контекст
-маршрутизатора, и отображает его.
+Помещает указанный в свойстве "application" компонент в контекст
+маршрутизатора и отображает его.
 
-Компонент способен определять, в какой среде выполнения он запустился. На
+Маршрутизатор способен определять, в какой среде выполнения он запустился. На
 NodeJS он использует StaticRouter, в браузере - либо BrowserRouter, либо
 HashRouter (в зависимости от значения свойства "hash").
 
