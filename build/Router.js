@@ -54,7 +54,7 @@ var RouterManager_1 = require("./RouterManager");
  * HashRouter (в зависимости от значения свойства "hash").
  */
 exports.Router = function (_a) {
-    var url = _a.url, context = _a.context, children = _a.children, _b = _a.hash, hash = _b === void 0 ? false : _b, application = _a.application, fallback = _a.fallback, props = __rest(_a, ["url", "context", "children", "hash", "application", "fallback"]);
+    var url = _a.url, context = _a.context, children = _a.children, _b = _a.hash, hash = _b === void 0 ? false : _b, application = _a.application, props = __rest(_a, ["url", "context", "children", "hash", "application"]);
     var isServer = typeof window === 'undefined';
     var content = (react_1.default.createElement(react_1.default.Fragment, null,
         react_1.default.createElement(RouterManager_1.RouterManager, null),

@@ -48,12 +48,6 @@ type Props = {
    * Корневой компонент приложения, использующего маршрутизацию.
    */
   application?: ComponentType<any>;
-
-  /**
-   * Корневой компонент страницы, которая показывается в случае если адрес
-   * страницы не обработан никем (иными словами, страница не найдена).
-   */
-  fallback?: ComponentType<any>;
 };
 
 /**
@@ -70,7 +64,6 @@ export const Router: FC<Props> = ({
   children,
   hash = false,
   application,
-  fallback,
   ...props
 }) => {
   const isServer = typeof window === 'undefined';

@@ -81,8 +81,6 @@ ___
 
 * **context**? : *StaticProps["context"]*
 
-* **fallback**? : *ComponentType‹any›*
-
 * **hash**? : *undefined | false | true*
 
 * **url**? : *StaticProps["location"]*
