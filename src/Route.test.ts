@@ -10,9 +10,11 @@ import { NoMatchesError } from './NoMatchesError';
 import { Router } from './Router';
 
 describe('Route', () => {
-  const render = (href: string, route: any) => {
+  const render = (href: string, route: any, context?: any) => {
     const application = () => createElement(Switch, {}, route.get().render());
-    return renderToString(createElement(Router, { application, url: href }));
+    return renderToString(
+      createElement(Router, { application, context, url: href })
+    );
   };
 
   describe('href', () => {
@@ -701,6 +703,68 @@ describe('Route', () => {
 
       const value = TestRoute.get().params;
       assert.ownInclude(value, { bar: 'bar' });
+    });
+  });
+
+  describe('doRedirect', () => {
+    it('should works', () => {
+      const FooComponent = () => {
+        BarRoute.get().doRedirect();
+        return createElement('div', {}, 'foo');
+      };
+
+      const BarComponent = () => createElement('div', {}, 'bar');
+
+      class FooRoute extends Route {
+        public component = FooComponent;
+        public path = '/foo';
+      }
+
+      class BarRoute extends Route {
+        public component = BarComponent;
+        public path = '/bar';
+      }
+
+      const context: any = {};
+      render('/foo', FooRoute, context);
+      render('/foo', FooRoute, context);
+
+      assert.deepEqual(context, {
+        action: 'PUSH',
+        url: '/bar',
+        statusCode: 301,
+      });
+    });
+  });
+
+  describe('doReplace', () => {
+    it('should works', () => {
+      const FooComponent = () => {
+        BarRoute.get().doReplace();
+        return createElement('div', {}, 'foo');
+      };
+
+      const BarComponent = () => createElement('div', {}, 'bar');
+
+      class FooRoute extends Route {
+        public component = FooComponent;
+        public path = '/foo';
+      }
+
+      class BarRoute extends Route {
+        public component = BarComponent;
+        public path = '/bar';
+      }
+
+      const context: any = {};
+      render('/foo', FooRoute, context);
+      render('/foo', FooRoute, context);
+
+      assert.deepEqual(context, {
+        action: 'REPLACE',
+        url: '/bar',
+        statusCode: 301,
+      });
     });
   });
 });
