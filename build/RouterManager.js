@@ -62,7 +62,7 @@ var RouterManager = /** @class */ (function (_super) {
      */
     RouterManager.prototype.renderRedirect = function (redirect, push) {
         var staticContext = this.props.staticContext;
-        RouterStore_1.RouterStore.get().setRedirect(undefined);
+        RouterStore_1.RouterStore.get().unsetRedirect();
         if (typeof window == 'undefined') {
             if (staticContext) {
                 staticContext.action = push ? 'PUSH' : 'REPLACE';

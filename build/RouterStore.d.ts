@@ -6,14 +6,9 @@ import { LazyStore } from '@devim-front/store';
  */
 export declare class RouterStore extends LazyStore {
     /**
-     * Сохранённое значение текущего адреса страницы. Добавлено для того, чтобы
-     * нельзя было установить это значение извне класса.
+     * Текущий адрес страницы.
      */
-    private hrefValue;
-    /**
-     * Адрес текущей страницы.
-     */
-    get href(): string;
+    href: string;
     /**
      * Задает текущий адрес страницы.
      *
@@ -38,5 +33,9 @@ export declare class RouterStore extends LazyStore {
      * @param push Указывает, следует ли делать запись в браузерной истории
      * об этом перенаправлении.
      */
-    setRedirect(href: string | undefined, push?: boolean): void;
+    setRedirect(href: string, push?: boolean): void;
+    /**
+     * Сбрасывает параметры перенаправления в состояние по умолчанию.
+     */
+    unsetRedirect(): void;
 }

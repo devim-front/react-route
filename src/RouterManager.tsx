@@ -38,7 +38,7 @@ class RouterManager extends Component<Props> {
   private renderRedirect(redirect: string, push: boolean) {
     const { staticContext } = this.props;
 
-    RouterStore.get().setRedirect(undefined);
+    RouterStore.get().unsetRedirect();
 
     if (typeof window == 'undefined') {
       if (staticContext) {

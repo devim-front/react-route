@@ -32,23 +32,13 @@ var RouterStore = /** @class */ (function (_super) {
     function RouterStore() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    Object.defineProperty(RouterStore.prototype, "href", {
-        /**
-         * Адрес текущей страницы.
-         */
-        get: function () {
-            return this.hrefValue;
-        },
-        enumerable: false,
-        configurable: true
-    });
     /**
      * Задает текущий адрес страницы.
      *
      * @param href Новый адрес страницы.
      */
     RouterStore.prototype.setHref = function (href) {
-        this.hrefValue = href;
+        this.href = href;
     };
     /**
      * Задает адрес страницы, на которую нужно перейти в следующем цикле отрисовки
@@ -60,20 +50,19 @@ var RouterStore = /** @class */ (function (_super) {
      */
     RouterStore.prototype.setRedirect = function (href, push) {
         if (push === void 0) { push = false; }
-        if (href == null) {
-            this.redirect = undefined;
-            this.push = undefined;
-            return;
-        }
         this.redirect = href;
         this.push = push;
     };
+    /**
+     * Сбрасывает параметры перенаправления в состояние по умолчанию.
+     */
+    RouterStore.prototype.unsetRedirect = function () {
+        this.redirect = undefined;
+        this.push = undefined;
+    };
     __decorate([
         mobx_1.observable
-    ], RouterStore.prototype, "hrefValue", void 0);
-    __decorate([
-        mobx_1.computed
-    ], RouterStore.prototype, "href", null);
+    ], RouterStore.prototype, "href", void 0);
     __decorate([
         mobx_1.action
     ], RouterStore.prototype, "setHref", null);
@@ -86,6 +75,9 @@ var RouterStore = /** @class */ (function (_super) {
     __decorate([
         mobx_1.action
     ], RouterStore.prototype, "setRedirect", null);
+    __decorate([
+        mobx_1.action
+    ], RouterStore.prototype, "unsetRedirect", null);
     return RouterStore;
 }(store_1.LazyStore));
 exports.RouterStore = RouterStore;

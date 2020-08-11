@@ -1,5 +1,5 @@
 import { LazyStore } from '@devim-front/store';
-import { observable, computed, action } from 'mobx';
+import { observable, action } from 'mobx';
 
 /**
  * Хранилище состояния маршрутизатора.
@@ -8,19 +8,10 @@ import { observable, computed, action } from 'mobx';
  */
 export class RouterStore extends LazyStore {
   /**
-   * Сохранённое значение текущего адреса страницы. Добавлено для того, чтобы
-   * нельзя было установить это значение извне класса.
+   * Текущий адрес страницы.
    */
   @observable
-  private hrefValue: string;
-
-  /**
-   * Адрес текущей страницы.
-   */
-  @computed
-  public get href() {
-    return this.hrefValue;
-  }
+  public href: string;
 
   /**
    * Задает текущий адрес страницы.
@@ -29,7 +20,7 @@ export class RouterStore extends LazyStore {
    */
   @action
   public setHref(href: string) {
-    this.hrefValue = href;
+    this.href = href;
   }
 
   /**
@@ -55,15 +46,17 @@ export class RouterStore extends LazyStore {
    * об этом перенаправлении.
    */
   @action
-  public setRedirect(href: string | undefined, push: boolean = false) {
-    if (href == null) {
-      this.redirect = undefined;
-      this.push = undefined;
-
-      return;
-    }
-
+  public setRedirect(href: string, push: boolean = false) {
     this.redirect = href;
     this.push = push;
+  }
+
+  /**
+   * Сбрасывает параметры перенаправления в состояние по умолчанию.
+   */
+  @action
+  public unsetRedirect() {
+    this.redirect = undefined;
+    this.push = undefined;
   }
 }
