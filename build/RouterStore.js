@@ -30,7 +30,12 @@ var mobx_1 = require("mobx");
 var RouterStore = /** @class */ (function (_super) {
     __extends(RouterStore, _super);
     function RouterStore() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        /**
+         * Указывает, что пользователю должна быть показана страница 404.
+         */
+        _this.isNotFound = false;
+        return _this;
     }
     /**
      * Задает текущий адрес страницы.
@@ -60,6 +65,18 @@ var RouterStore = /** @class */ (function (_super) {
         this.redirect = undefined;
         this.push = undefined;
     };
+    /**
+     * Указывает, что пользователю должна быть показана страница 404.
+     */
+    RouterStore.prototype.setNotFound = function () {
+        this.isNotFound = true;
+    };
+    /**
+     * Сбрасывает значение флага isNotFound в false.
+     */
+    RouterStore.prototype.unsetNotFound = function () {
+        this.isNotFound = false;
+    };
     __decorate([
         mobx_1.observable
     ], RouterStore.prototype, "href", void 0);
@@ -73,11 +90,20 @@ var RouterStore = /** @class */ (function (_super) {
         mobx_1.observable
     ], RouterStore.prototype, "push", void 0);
     __decorate([
+        mobx_1.observable
+    ], RouterStore.prototype, "isNotFound", void 0);
+    __decorate([
         mobx_1.action
     ], RouterStore.prototype, "setRedirect", null);
     __decorate([
         mobx_1.action
     ], RouterStore.prototype, "unsetRedirect", null);
+    __decorate([
+        mobx_1.action
+    ], RouterStore.prototype, "setNotFound", null);
+    __decorate([
+        mobx_1.action
+    ], RouterStore.prototype, "unsetNotFound", null);
     return RouterStore;
 }(store_1.LazyStore));
 exports.RouterStore = RouterStore;

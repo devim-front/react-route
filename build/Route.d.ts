@@ -223,7 +223,7 @@ export declare class Route<P extends Params = void> extends LazyStore<Events> {
      * @param values Список совпадений с регулярным выражением, полученным из
      * маски адреса.
      */
-    private createParams;
+    private getParams;
     /**
      * Разбирает указанный адрес с помощью регулярного выражения, полученного
      * из маски маршрута, и возвращает массив совпавших с ним подстрок,

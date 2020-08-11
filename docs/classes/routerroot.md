@@ -1,9 +1,9 @@
-[@devim-front/react-route](../README.md) › [RouterManager](routermanager.md)
+[@devim-front/react-route](../README.md) › [RouterRoot](routerroot.md)
 
-# Class: RouterManager ‹**S, SS, S**›
+# Class: RouterRoot ‹**S, SS, S**›
 
-Обеспечивает интеграцию между хранилищами маршрутов и контекстом роутера из
-библиотеки react-router-dom.
+Отображает корневой компонент приложения или страницу 404 в зависимости от
+того, был ли обработан текущий адрес страницы одним из маршрутов, или нет.
 
 ## Type parameters
 
@@ -17,42 +17,41 @@
 
 * Component‹[Props](../README.md#markdown-header-props)›
 
-  ↳ **RouterManager**
+  ↳ **RouterRoot**
 
 ## Index
 
 ### Constructors
 
-* [constructor](routermanager.md#markdown-header-constructor)
+* [constructor](routerroot.md#markdown-header-constructor)
 
 ### Properties
 
-* [context](routermanager.md#markdown-header-context)
-* [previousPathname](routermanager.md#markdown-header-previouspathname)
-* [refs](routermanager.md#markdown-header-refs)
-* [contextType](routermanager.md#markdown-header-static-optional-contexttype)
+* [context](routerroot.md#markdown-header-context)
+* [refs](routerroot.md#markdown-header-refs)
+* [contextType](routerroot.md#markdown-header-static-optional-contexttype)
 
 ### Methods
 
-* [UNSAFE_componentWillMount](routermanager.md#markdown-header-optional-unsafe_componentwillmount)
-* [UNSAFE_componentWillReceiveProps](routermanager.md#markdown-header-optional-unsafe_componentwillreceiveprops)
-* [UNSAFE_componentWillUpdate](routermanager.md#markdown-header-optional-unsafe_componentwillupdate)
-* [componentDidCatch](routermanager.md#markdown-header-optional-componentdidcatch)
-* [componentDidMount](routermanager.md#markdown-header-optional-componentdidmount)
-* [componentDidUpdate](routermanager.md#markdown-header-optional-componentdidupdate)
-* [componentWillMount](routermanager.md#markdown-header-optional-componentwillmount)
-* [componentWillReceiveProps](routermanager.md#markdown-header-optional-componentwillreceiveprops)
-* [componentWillUnmount](routermanager.md#markdown-header-optional-componentwillunmount)
-* [componentWillUpdate](routermanager.md#markdown-header-optional-componentwillupdate)
-* [getSnapshotBeforeUpdate](routermanager.md#markdown-header-optional-getsnapshotbeforeupdate)
-* [render](routermanager.md#markdown-header-render)
-* [shouldComponentUpdate](routermanager.md#markdown-header-optional-shouldcomponentupdate)
+* [UNSAFE_componentWillMount](routerroot.md#markdown-header-optional-unsafe_componentwillmount)
+* [UNSAFE_componentWillReceiveProps](routerroot.md#markdown-header-optional-unsafe_componentwillreceiveprops)
+* [UNSAFE_componentWillUpdate](routerroot.md#markdown-header-optional-unsafe_componentwillupdate)
+* [componentDidCatch](routerroot.md#markdown-header-optional-componentdidcatch)
+* [componentDidMount](routerroot.md#markdown-header-optional-componentdidmount)
+* [componentDidUpdate](routerroot.md#markdown-header-optional-componentdidupdate)
+* [componentWillMount](routerroot.md#markdown-header-optional-componentwillmount)
+* [componentWillReceiveProps](routerroot.md#markdown-header-optional-componentwillreceiveprops)
+* [componentWillUnmount](routerroot.md#markdown-header-optional-componentwillunmount)
+* [componentWillUpdate](routerroot.md#markdown-header-optional-componentwillupdate)
+* [getSnapshotBeforeUpdate](routerroot.md#markdown-header-optional-getsnapshotbeforeupdate)
+* [render](routerroot.md#markdown-header-render)
+* [shouldComponentUpdate](routerroot.md#markdown-header-optional-shouldcomponentupdate)
 
 ## Constructors
 
 ### <a id="markdown-header-constructor" name="markdown-header-constructor"></a>  constructor
 
-\+ **new RouterManager**(`props`: [Props](../README.md#markdown-header-props), `context?`: any): *[RouterManager](routermanager.md)*
+\+ **new RouterRoot**(`props`: [Props](../README.md#markdown-header-props), `context?`: any): *[RouterRoot](routerroot.md)*
 
 *Inherited from [NotFound](notfound.md).[constructor](notfound.md#markdown-header-constructor)*
 
@@ -67,7 +66,7 @@ Name | Type |
 `props` | [Props](../README.md#markdown-header-props) |
 `context?` | any |
 
-**Returns:** *[RouterManager](routermanager.md)*
+**Returns:** *[RouterRoot](routerroot.md)*
 
 ## Properties
 
@@ -90,15 +89,6 @@ declare context: React.ContextType<typeof MyContext>
 ```
 
 **`see`** https://reactjs.org/docs/context.html
-
-___
-
-### <a id="markdown-header-previouspathname" name="markdown-header-previouspathname"></a>  previousPathname
-
-• **previousPathname**: *string*
-
-Сохранённое значение пути в адресе страницы. Используется для того, чтобы
-реагировать конкретно на изменение пути, а не адреса в целом.
 
 ___
 
@@ -413,11 +403,11 @@ ___
 
 ### <a id="markdown-header-render" name="markdown-header-render"></a>  render
 
-▸ **render**(): *null | Element‹›*
+▸ **render**(): *null | ReactElement‹any, string | function | object›*
 
 **`inheritdoc`** 
 
-**Returns:** *null | Element‹›*
+**Returns:** *null | ReactElement‹any, string | function | object›*
 
 ___
 

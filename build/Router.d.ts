@@ -40,6 +40,10 @@ declare type Props = {
      * Корневой компонент приложения, использующего маршрутизацию.
      */
     application?: ComponentType<any>;
+    /**
+     * Компонент, представляющий страницу "404 Not Found".
+     */
+    notFound?: ComponentType<any>;
 };
 /**
  * Помещает указанный в свойстве "application" компонент в контекст

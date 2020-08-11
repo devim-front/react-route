@@ -14,3 +14,4 @@ __exportStar(require("./Route"), exports);
 __exportStar(require("./Router"), exports);
 __exportStar(require("./UndefinedComponentError"), exports);
 __exportStar(require("./UndefinedPathError"), exports);
+__exportStar(require("./NotFound"), exports);

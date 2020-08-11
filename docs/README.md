@@ -8,8 +8,10 @@
 
 * [BaseError](classes/baseerror.md)
 * [NoMatchesError](classes/nomatcheserror.md)
+* [NotFound](classes/notfound.md)
 * [Route](classes/route.md)
 * [RouterManager](classes/routermanager.md)
+* [RouterRoot](classes/routerroot.md)
 * [UndefinedComponentError](classes/undefinedcomponenterror.md)
 * [UndefinedPathError](classes/undefinedpatherror.md)
 
@@ -72,6 +74,7 @@ ___
 
 Свойства компонента.
 Свойства компонента.
+Свойства компонента.
 
 #### Type declaration:
 
@@ -82,6 +85,8 @@ ___
 * **context**? : *StaticProps["context"]*
 
 * **hash**? : *undefined | false | true*
+
+* **notFound**? : *ComponentType‹any›*
 
 * **url**? : *StaticProps["location"]*
 

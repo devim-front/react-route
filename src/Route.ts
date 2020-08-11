@@ -372,7 +372,7 @@ export class Route<P extends Params = void> extends LazyStore<Events> {
    * @param values Список совпадений с регулярным выражением, полученным из
    * маски адреса.
    */
-  private createParams(values: string[]) {
+  private getParams(values: string[]) {
     const { length } = this.keys;
 
     if (length === 0) {
@@ -448,7 +448,7 @@ export class Route<P extends Params = void> extends LazyStore<Events> {
       return undefined;
     }
 
-    return this.createParams(values);
+    return this.getParams(values);
   }
 
   /**

@@ -40,7 +40,7 @@ class RouterManager extends Component<Props> {
 
     RouterStore.get().unsetRedirect();
 
-    if (typeof window == 'undefined') {
+    if (typeof window === 'undefined') {
       if (staticContext) {
         staticContext.action = push ? 'PUSH' : 'REPLACE';
         staticContext.url = redirect;

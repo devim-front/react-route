@@ -228,7 +228,7 @@ var Route = /** @class */ (function (_super) {
      * @param values Список совпадений с регулярным выражением, полученным из
      * маски адреса.
      */
-    Route.prototype.createParams = function (values) {
+    Route.prototype.getParams = function (values) {
         var length = this.keys.length;
         if (length === 0) {
             return undefined;
@@ -291,7 +291,7 @@ var Route = /** @class */ (function (_super) {
             }
             return undefined;
         }
-        return this.createParams(values);
+        return this.getParams(values);
     };
     Object.defineProperty(Route.prototype, "isActive", {
         /**

@@ -38,6 +38,12 @@ export class RouterStore extends LazyStore {
   public push: boolean | undefined;
 
   /**
+   * Указывает, что пользователю должна быть показана страница 404.
+   */
+  @observable
+  public isNotFound: boolean = false;
+
+  /**
    * Задает адрес страницы, на которую нужно перейти в следующем цикле отрисовки
    * приложения.
    *
@@ -58,5 +64,21 @@ export class RouterStore extends LazyStore {
   public unsetRedirect() {
     this.redirect = undefined;
     this.push = undefined;
+  }
+
+  /**
+   * Указывает, что пользователю должна быть показана страница 404.
+   */
+  @action
+  public setNotFound() {
+    this.isNotFound = true;
+  }
+
+  /**
+   * Сбрасывает значение флага isNotFound в false.
+   */
+  @action
+  public unsetNotFound() {
+    this.isNotFound = false;
   }
 }

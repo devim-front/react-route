@@ -1,58 +1,60 @@
-[@devim-front/react-route](../README.md) › [RouterManager](routermanager.md)
+[@devim-front/react-route](../README.md) › [NotFound](notfound.md)
 
-# Class: RouterManager ‹**S, SS, S**›
+# Class: NotFound ‹**P, S, SS, P, S**›
 
-Обеспечивает интеграцию между хранилищами маршрутов и контекстом роутера из
-библиотеки react-router-dom.
+Указывает, что данный адрес не найден.
 
 ## Type parameters
+
+▪ **P**
 
 ▪ **S**
 
 ▪ **SS**
 
+▪ **P**
+
 ▪ **S**
 
 ## Hierarchy
 
-* Component‹[Props](../README.md#markdown-header-props)›
+* Component
 
-  ↳ **RouterManager**
+  ↳ **NotFound**
 
 ## Index
 
 ### Constructors
 
-* [constructor](routermanager.md#markdown-header-constructor)
+* [constructor](notfound.md#markdown-header-constructor)
 
 ### Properties
 
-* [context](routermanager.md#markdown-header-context)
-* [previousPathname](routermanager.md#markdown-header-previouspathname)
-* [refs](routermanager.md#markdown-header-refs)
-* [contextType](routermanager.md#markdown-header-static-optional-contexttype)
+* [context](notfound.md#markdown-header-context)
+* [refs](notfound.md#markdown-header-refs)
+* [contextType](notfound.md#markdown-header-static-optional-contexttype)
 
 ### Methods
 
-* [UNSAFE_componentWillMount](routermanager.md#markdown-header-optional-unsafe_componentwillmount)
-* [UNSAFE_componentWillReceiveProps](routermanager.md#markdown-header-optional-unsafe_componentwillreceiveprops)
-* [UNSAFE_componentWillUpdate](routermanager.md#markdown-header-optional-unsafe_componentwillupdate)
-* [componentDidCatch](routermanager.md#markdown-header-optional-componentdidcatch)
-* [componentDidMount](routermanager.md#markdown-header-optional-componentdidmount)
-* [componentDidUpdate](routermanager.md#markdown-header-optional-componentdidupdate)
-* [componentWillMount](routermanager.md#markdown-header-optional-componentwillmount)
-* [componentWillReceiveProps](routermanager.md#markdown-header-optional-componentwillreceiveprops)
-* [componentWillUnmount](routermanager.md#markdown-header-optional-componentwillunmount)
-* [componentWillUpdate](routermanager.md#markdown-header-optional-componentwillupdate)
-* [getSnapshotBeforeUpdate](routermanager.md#markdown-header-optional-getsnapshotbeforeupdate)
-* [render](routermanager.md#markdown-header-render)
-* [shouldComponentUpdate](routermanager.md#markdown-header-optional-shouldcomponentupdate)
+* [UNSAFE_componentWillMount](notfound.md#markdown-header-optional-unsafe_componentwillmount)
+* [UNSAFE_componentWillReceiveProps](notfound.md#markdown-header-optional-unsafe_componentwillreceiveprops)
+* [UNSAFE_componentWillUpdate](notfound.md#markdown-header-optional-unsafe_componentwillupdate)
+* [componentDidCatch](notfound.md#markdown-header-optional-componentdidcatch)
+* [componentDidMount](notfound.md#markdown-header-optional-componentdidmount)
+* [componentDidUpdate](notfound.md#markdown-header-optional-componentdidupdate)
+* [componentWillMount](notfound.md#markdown-header-optional-componentwillmount)
+* [componentWillReceiveProps](notfound.md#markdown-header-optional-componentwillreceiveprops)
+* [componentWillUnmount](notfound.md#markdown-header-optional-componentwillunmount)
+* [componentWillUpdate](notfound.md#markdown-header-optional-componentwillupdate)
+* [getSnapshotBeforeUpdate](notfound.md#markdown-header-optional-getsnapshotbeforeupdate)
+* [render](notfound.md#markdown-header-render)
+* [shouldComponentUpdate](notfound.md#markdown-header-optional-shouldcomponentupdate)
 
 ## Constructors
 
 ### <a id="markdown-header-constructor" name="markdown-header-constructor"></a>  constructor
 
-\+ **new RouterManager**(`props`: [Props](../README.md#markdown-header-props), `context?`: any): *[RouterManager](routermanager.md)*
+\+ **new NotFound**(`props`: P, `context?`: any): *[NotFound](notfound.md)*
 
 *Inherited from [NotFound](notfound.md).[constructor](notfound.md#markdown-header-constructor)*
 
@@ -64,10 +66,10 @@
 
 Name | Type |
 ------ | ------ |
-`props` | [Props](../README.md#markdown-header-props) |
+`props` | P |
 `context?` | any |
 
-**Returns:** *[RouterManager](routermanager.md)*
+**Returns:** *[NotFound](notfound.md)*
 
 ## Properties
 
@@ -90,15 +92,6 @@ declare context: React.ContextType<typeof MyContext>
 ```
 
 **`see`** https://reactjs.org/docs/context.html
-
-___
-
-### <a id="markdown-header-previouspathname" name="markdown-header-previouspathname"></a>  previousPathname
-
-• **previousPathname**: *string*
-
-Сохранённое значение пути в адресе страницы. Используется для того, чтобы
-реагировать конкретно на изменение пути, а не адреса в целом.
 
 ___
 
@@ -170,7 +163,7 @@ ___
 
 ### <a id="markdown-header-optional-unsafe_componentwillreceiveprops" name="markdown-header-optional-unsafe_componentwillreceiveprops"></a> `Optional` UNSAFE_componentWillReceiveProps
 
-▸ **UNSAFE_componentWillReceiveProps**(`nextProps`: Readonly‹[Props](../README.md#markdown-header-props)›, `nextContext`: any): *void*
+▸ **UNSAFE_componentWillReceiveProps**(`nextProps`: Readonly‹P›, `nextContext`: any): *void*
 
 *Inherited from [NotFound](notfound.md).[UNSAFE_componentWillReceiveProps](notfound.md#markdown-header-optional-unsafe_componentwillreceiveprops)*
 
@@ -195,7 +188,7 @@ prevents this from being invoked.
 
 Name | Type |
 ------ | ------ |
-`nextProps` | Readonly‹[Props](../README.md#markdown-header-props)› |
+`nextProps` | Readonly‹P› |
 `nextContext` | any |
 
 **Returns:** *void*
@@ -204,7 +197,7 @@ ___
 
 ### <a id="markdown-header-optional-unsafe_componentwillupdate" name="markdown-header-optional-unsafe_componentwillupdate"></a> `Optional` UNSAFE_componentWillUpdate
 
-▸ **UNSAFE_componentWillUpdate**(`nextProps`: Readonly‹[Props](../README.md#markdown-header-props)›, `nextState`: Readonly‹S›, `nextContext`: any): *void*
+▸ **UNSAFE_componentWillUpdate**(`nextProps`: Readonly‹P›, `nextState`: Readonly‹S›, `nextContext`: any): *void*
 
 *Inherited from [NotFound](notfound.md).[UNSAFE_componentWillUpdate](notfound.md#markdown-header-optional-unsafe_componentwillupdate)*
 
@@ -227,7 +220,7 @@ prevents this from being invoked.
 
 Name | Type |
 ------ | ------ |
-`nextProps` | Readonly‹[Props](../README.md#markdown-header-props)› |
+`nextProps` | Readonly‹P› |
 `nextState` | Readonly‹S› |
 `nextContext` | any |
 
@@ -269,7 +262,7 @@ ___
 
 ### <a id="markdown-header-optional-componentdidupdate" name="markdown-header-optional-componentdidupdate"></a> `Optional` componentDidUpdate
 
-▸ **componentDidUpdate**(`prevProps`: Readonly‹[Props](../README.md#markdown-header-props)›, `prevState`: Readonly‹S›, `snapshot?`: SS): *void*
+▸ **componentDidUpdate**(`prevProps`: Readonly‹P›, `prevState`: Readonly‹S›, `snapshot?`: SS): *void*
 
 *Inherited from [NotFound](notfound.md).[componentDidUpdate](notfound.md#markdown-header-optional-componentdidupdate)*
 
@@ -281,7 +274,7 @@ The snapshot is only present if getSnapshotBeforeUpdate is present and returns n
 
 Name | Type |
 ------ | ------ |
-`prevProps` | Readonly‹[Props](../README.md#markdown-header-props)› |
+`prevProps` | Readonly‹P› |
 `prevState` | Readonly‹S› |
 `snapshot?` | SS |
 
@@ -313,7 +306,7 @@ ___
 
 ### <a id="markdown-header-optional-componentwillreceiveprops" name="markdown-header-optional-componentwillreceiveprops"></a> `Optional` componentWillReceiveProps
 
-▸ **componentWillReceiveProps**(`nextProps`: Readonly‹[Props](../README.md#markdown-header-props)›, `nextContext`: any): *void*
+▸ **componentWillReceiveProps**(`nextProps`: Readonly‹P›, `nextContext`: any): *void*
 
 *Inherited from [NotFound](notfound.md).[componentWillReceiveProps](notfound.md#markdown-header-optional-componentwillreceiveprops)*
 
@@ -336,7 +329,7 @@ prevents this from being invoked.
 
 Name | Type |
 ------ | ------ |
-`nextProps` | Readonly‹[Props](../README.md#markdown-header-props)› |
+`nextProps` | Readonly‹P› |
 `nextContext` | any |
 
 **Returns:** *void*
@@ -358,7 +351,7 @@ ___
 
 ### <a id="markdown-header-optional-componentwillupdate" name="markdown-header-optional-componentwillupdate"></a> `Optional` componentWillUpdate
 
-▸ **componentWillUpdate**(`nextProps`: Readonly‹[Props](../README.md#markdown-header-props)›, `nextState`: Readonly‹S›, `nextContext`: any): *void*
+▸ **componentWillUpdate**(`nextProps`: Readonly‹P›, `nextState`: Readonly‹S›, `nextContext`: any): *void*
 
 *Inherited from [NotFound](notfound.md).[componentWillUpdate](notfound.md#markdown-header-optional-componentwillupdate)*
 
@@ -379,7 +372,7 @@ prevents this from being invoked.
 
 Name | Type |
 ------ | ------ |
-`nextProps` | Readonly‹[Props](../README.md#markdown-header-props)› |
+`nextProps` | Readonly‹P› |
 `nextState` | Readonly‹S› |
 `nextContext` | any |
 
@@ -389,7 +382,7 @@ ___
 
 ### <a id="markdown-header-optional-getsnapshotbeforeupdate" name="markdown-header-optional-getsnapshotbeforeupdate"></a> `Optional` getSnapshotBeforeUpdate
 
-▸ **getSnapshotBeforeUpdate**(`prevProps`: Readonly‹[Props](../README.md#markdown-header-props)›, `prevState`: Readonly‹S›): *SS | null*
+▸ **getSnapshotBeforeUpdate**(`prevProps`: Readonly‹P›, `prevState`: Readonly‹S›): *SS | null*
 
 *Inherited from [NotFound](notfound.md).[getSnapshotBeforeUpdate](notfound.md#markdown-header-optional-getsnapshotbeforeupdate)*
 
@@ -404,7 +397,7 @@ lifecycle events from running.
 
 Name | Type |
 ------ | ------ |
-`prevProps` | Readonly‹[Props](../README.md#markdown-header-props)› |
+`prevProps` | Readonly‹P› |
 `prevState` | Readonly‹S› |
 
 **Returns:** *SS | null*
@@ -413,17 +406,17 @@ ___
 
 ### <a id="markdown-header-render" name="markdown-header-render"></a>  render
 
-▸ **render**(): *null | Element‹›*
+▸ **render**(): *null*
 
 **`inheritdoc`** 
 
-**Returns:** *null | Element‹›*
+**Returns:** *null*
 
 ___
 
 ### <a id="markdown-header-optional-shouldcomponentupdate" name="markdown-header-optional-shouldcomponentupdate"></a> `Optional` shouldComponentUpdate
 
-▸ **shouldComponentUpdate**(`nextProps`: Readonly‹[Props](../README.md#markdown-header-props)›, `nextState`: Readonly‹S›, `nextContext`: any): *boolean*
+▸ **shouldComponentUpdate**(`nextProps`: Readonly‹P›, `nextState`: Readonly‹S›, `nextContext`: any): *boolean*
 
 *Inherited from [NotFound](notfound.md).[shouldComponentUpdate](notfound.md#markdown-header-optional-shouldcomponentupdate)*
 
@@ -440,7 +433,7 @@ and `componentDidUpdate` will not be called.
 
 Name | Type |
 ------ | ------ |
-`nextProps` | Readonly‹[Props](../README.md#markdown-header-props)› |
+`nextProps` | Readonly‹P› |
 `nextState` | Readonly‹S› |
 `nextContext` | any |
 

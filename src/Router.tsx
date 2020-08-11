@@ -1,7 +1,8 @@
-import React, { FC, ComponentProps, ComponentType, createElement } from 'react';
+import React, { FC, ComponentProps, ComponentType } from 'react';
 import { BrowserRouter, StaticRouter, HashRouter } from 'react-router-dom';
 
 import { RouterManager } from './RouterManager';
+import { RouterRoot } from './RouterRoot';
 
 /**
  * Свойства статического роутера.
@@ -48,6 +49,11 @@ type Props = {
    * Корневой компонент приложения, использующего маршрутизацию.
    */
   application?: ComponentType<any>;
+
+  /**
+   * Компонент, представляющий страницу "404 Not Found".
+   */
+  notFound?: ComponentType<any>;
 };
 
 /**
@@ -64,6 +70,7 @@ export const Router: FC<Props> = ({
   children,
   hash = false,
   application,
+  notFound,
   ...props
 }) => {
   const isServer = typeof window === 'undefined';
@@ -71,7 +78,7 @@ export const Router: FC<Props> = ({
   const content = (
     <>
       <RouterManager />
-      {application ? createElement(application) : null}
+      <RouterRoot application={application} notFound={notFound} />
     </>
   );
 
