@@ -8,34 +8,29 @@ import { UndefinedPathError } from './UndefinedPathError';
 import { Route } from './Route';
 import { NoMatchesError } from './NoMatchesError';
 import { Router } from './Router';
-import { RouterState } from './RouterState';
+// import { RouterState } from './RouterState';
 
 describe('Route', () => {
-  const complexRender = async (
-    href: string,
-    route: any,
-    state: RouterState = new RouterState()
-  ) => {
-    const application = () => <Switch>{route.get().render()}</Switch>;
+  // const complexRender = async (
+  //   href: string,
+  //   route: any,
+  //   state: RouterState = new RouterState()
+  // ) => {
+  //   const application = () => <Switch>{route.get().render()}</Switch>;
 
-    const element = (
-      <Router state={state} url={href} application={application} />
-    );
+  //   const element = (
+  //     <Router state={state} url={href} application={application} />
+  //   );
 
-    let output: string = '';
+  //   let output: string = '';
 
-    output = renderToString(element);
-    await state.next();
+  //   while (state.isNotRendered) {
+  //     output = renderToString(element);
+  //     await state.next();
+  //   }
 
-    console.log(state.isNotRendered);
-
-    output = renderToString(element);
-    await state.next();
-
-    console.log(state.isNotRendered);
-
-    return output;
-  };
+  //   return output;
+  // };
 
   const fastRender = (href: string, route: any) => {
     const application = () => <Switch>{route.get().render()}</Switch>;
@@ -732,59 +727,59 @@ describe('Route', () => {
     });
   });
 
-  describe('doRedirect', () => {
-    it('the routers state should has a status 301', async () => {
-      const FooComponent = () => {
-        BarRoute.get().doRedirect();
-        return <div>foo</div>;
-      };
+  // describe('doRedirect', () => {
+  //   it('the routers state should has a status 301', async () => {
+  //     const FooComponent = () => {
+  //       BarRoute.get().doRedirect();
+  //       return <div>foo</div>;
+  //     };
 
-      const BarComponent = () => <div>bar</div>;
+  //     const BarComponent = () => <div>bar</div>;
 
-      class FooRoute extends Route {
-        public component = FooComponent;
-        public path = '/foo';
-      }
+  //     class FooRoute extends Route {
+  //       public component = FooComponent;
+  //       public path = '/foo';
+  //     }
 
-      class BarRoute extends Route {
-        public component = BarComponent;
-        public path = '/bar';
-      }
+  //     class BarRoute extends Route {
+  //       public component = BarComponent;
+  //       public path = '/bar';
+  //     }
 
-      const state = new RouterState();
-      await complexRender('/foo', FooRoute, state);
+  //     const state = new RouterState();
+  //     await complexRender('/foo', FooRoute, state);
 
-      assert.isTrue(state.isRedirect);
-      assert.equal(state.redirectUrl, '/bar');
-      assert.equal(state.status, 301);
-    });
-  });
+  //     assert.isTrue(state.isRedirect);
+  //     assert.equal(state.redirectUrl, '/bar');
+  //     assert.equal(state.status, 301);
+  //   });
+  // });
 
-  describe('doReplace', () => {
-    it('the routers state should has a status 301', async () => {
-      const FooComponent = () => {
-        BarRoute.get().doReplace();
-        return <div>foo</div>;
-      };
+  // describe('doReplace', () => {
+  //   it('the routers state should has a status 301', async () => {
+  //     const FooComponent = () => {
+  //       BarRoute.get().doReplace();
+  //       return createElement('div', {}, 'foo');
+  //     };
 
-      const BarComponent = () => <div>bar</div>;
+  //     const BarComponent = () => createElement('div', {}, 'bar');
 
-      class FooRoute extends Route {
-        public component = FooComponent;
-        public path = '/foo';
-      }
+  //     class FooRoute extends Route {
+  //       public component = FooComponent;
+  //       public path = '/foo';
+  //     }
 
-      class BarRoute extends Route {
-        public component = BarComponent;
-        public path = '/bar';
-      }
+  //     class BarRoute extends Route {
+  //       public component = BarComponent;
+  //       public path = '/bar';
+  //     }
 
-      const state = new RouterState();
-      await complexRender('/foo', FooRoute, state);
+  //     const state = new RouterState();
+  //     await complexRender('/foo', FooRoute, state);
 
-      assert.isTrue(state.isRedirect);
-      assert.equal(state.redirectUrl, '/bar');
-      assert.equal(state.status, 301);
-    });
-  });
+  //     assert.isTrue(state.isRedirect);
+  //     assert.equal(state.redirectUrl, '/bar');
+  //     assert.equal(state.status, 301);
+  //   });
+  // });
 });
