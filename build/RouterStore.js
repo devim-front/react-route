@@ -46,6 +46,14 @@ var RouterStore = /** @class */ (function (_super) {
         this.href = href;
     };
     /**
+     * Задает состояние роутера.
+     *
+     * @param state Состояние.
+     */
+    RouterStore.prototype.setState = function (state) {
+        this.state = state;
+    };
+    /**
      * Задает адрес страницы, на которую нужно перейти в следующем цикле отрисовки
      * приложения.
      *
@@ -57,6 +65,9 @@ var RouterStore = /** @class */ (function (_super) {
         if (push === void 0) { push = false; }
         this.redirect = href;
         this.push = push;
+        if (this.state) {
+            this.state.addPromise(Promise.resolve());
+        }
     };
     /**
      * Сбрасывает параметры перенаправления в состояние по умолчанию.
@@ -70,6 +81,9 @@ var RouterStore = /** @class */ (function (_super) {
      */
     RouterStore.prototype.setNotFound = function () {
         this.isNotFound = true;
+        if (this.state) {
+            this.state.addPromise(Promise.resolve());
+        }
     };
     /**
      * Сбрасывает значение флага isNotFound в false.

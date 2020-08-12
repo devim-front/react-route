@@ -61,21 +61,7 @@ var RouterManager = /** @class */ (function (_super) {
      * перенаправлении.
      */
     RouterManager.prototype.renderRedirect = function (redirect, push) {
-        var staticContext = this.props.staticContext;
         RouterStore_1.RouterStore.get().unsetRedirect();
-        if (typeof window === 'undefined') {
-            if (staticContext) {
-                staticContext.action = push ? 'PUSH' : 'REPLACE';
-                staticContext.url = redirect;
-                staticContext.statusCode = 301;
-            }
-            return null;
-        }
-        var isExternal = redirect.indexOf('//') >= 0;
-        if (isExternal) {
-            window.location.href = redirect;
-            return null;
-        }
         return react_1.default.createElement(react_router_dom_1.Redirect, { to: redirect, push: push });
     };
     /**

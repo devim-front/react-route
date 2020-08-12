@@ -1,4 +1,5 @@
 import { LazyStore } from '@devim-front/store';
+import { RouterState } from './RouterState';
 /**
  * Хранилище состояния маршрутизатора.
  *
@@ -29,6 +30,16 @@ export declare class RouterStore extends LazyStore {
      * Указывает, что пользователю должна быть показана страница 404.
      */
     isNotFound: boolean;
+    /**
+     * Состояние роутера.
+     */
+    private state;
+    /**
+     * Задает состояние роутера.
+     *
+     * @param state Состояние.
+     */
+    setState(state: RouterState): void;
     /**
      * Задает адрес страницы, на которую нужно перейти в следующем цикле отрисовки
      * приложения.

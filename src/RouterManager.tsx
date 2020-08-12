@@ -1,9 +1,9 @@
-import React, { Component, ComponentProps } from 'react';
+import React, { Component } from 'react';
 import { withRouter, RouteComponentProps, Redirect } from 'react-router-dom';
 import { observer } from 'mobx-react';
 
 import { RouterStore } from './RouterStore';
-import { Router } from './Router';
+import { StaticContext } from './StaticContext';
 
 /**
  * Свойства компонента.
@@ -12,7 +12,7 @@ type Props = Omit<RouteComponentProps, 'staticContext'> & {
   /**
    * Статический контекст роутера при запуске приложения на NodeJS.
    */
-  staticContext?: ComponentProps<typeof Router>['context'];
+  staticContext?: StaticContext;
 };
 
 /**
@@ -36,27 +36,7 @@ class RouterManager extends Component<Props> {
    * перенаправлении.
    */
   private renderRedirect(redirect: string, push: boolean) {
-    const { staticContext } = this.props;
-
     RouterStore.get().unsetRedirect();
-
-    if (typeof window === 'undefined') {
-      if (staticContext) {
-        staticContext.action = push ? 'PUSH' : 'REPLACE';
-        staticContext.url = redirect;
-        staticContext.statusCode = 301;
-      }
-
-      return null;
-    }
-
-    const isExternal = redirect.indexOf('//') >= 0;
-
-    if (isExternal) {
-      window.location.href = redirect;
-      return null;
-    }
-
     return <Redirect to={redirect} push={push} />;
   }
 

@@ -1,4 +1,4 @@
-import { createElement, FC } from 'react';
+import React, { createElement, FC } from 'react';
 import { Switch } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
 import { assert } from 'chai';
@@ -8,13 +8,39 @@ import { UndefinedPathError } from './UndefinedPathError';
 import { Route } from './Route';
 import { NoMatchesError } from './NoMatchesError';
 import { Router } from './Router';
+import { RouterState } from './RouterState';
 
 describe('Route', () => {
-  const render = (href: string, route: any, context?: any) => {
-    const application = () => createElement(Switch, {}, route.get().render());
-    return renderToString(
-      createElement(Router, { application, context, url: href })
+  const complexRender = async (
+    href: string,
+    route: any,
+    state: RouterState = new RouterState()
+  ) => {
+    const application = () => <Switch>{route.get().render()}</Switch>;
+
+    const element = (
+      <Router state={state} url={href} application={application} />
     );
+
+    let output: string = '';
+
+    output = renderToString(element);
+    await state.next();
+
+    console.log(state.isNotRendered);
+
+    output = renderToString(element);
+    await state.next();
+
+    console.log(state.isNotRendered);
+
+    return output;
+  };
+
+  const fastRender = (href: string, route: any) => {
+    const application = () => <Switch>{route.get().render()}</Switch>;
+    const element = <Router url={href} application={application} />;
+    return renderToString(element);
   };
 
   describe('href', () => {
@@ -90,7 +116,7 @@ describe('Route', () => {
         public path = '/';
       }
 
-      const value = render('/', CustomRoute);
+      const value = fastRender('/', CustomRoute);
 
       assert.equal(value, `<div>${text}</div>`);
     });
@@ -657,7 +683,7 @@ describe('Route', () => {
         public path = '/foo';
       }
 
-      render('/foo', TestRoute);
+      fastRender('/foo', TestRoute);
       assert.isTrue(TestRoute.get().isActive);
     });
 
@@ -669,7 +695,7 @@ describe('Route', () => {
         public path = '/bar';
       }
 
-      render('/foo', TestRoute);
+      fastRender('/foo', TestRoute);
       assert.isFalse(TestRoute.get().isActive);
     });
   });
@@ -683,7 +709,7 @@ describe('Route', () => {
         public path = '/';
       }
 
-      render('/', TestRoute);
+      fastRender('/', TestRoute);
 
       const value = TestRoute.get().params;
       assert.ownInclude(value, {});
@@ -699,7 +725,7 @@ describe('Route', () => {
         public path = '/:bar';
       }
 
-      render('/bar', TestRoute);
+      fastRender('/bar', TestRoute);
 
       const value = TestRoute.get().params;
       assert.ownInclude(value, { bar: 'bar' });
@@ -707,13 +733,13 @@ describe('Route', () => {
   });
 
   describe('doRedirect', () => {
-    it('should works', () => {
+    it('the routers state should has a status 301', async () => {
       const FooComponent = () => {
         BarRoute.get().doRedirect();
-        return createElement('div', {}, 'foo');
+        return <div>foo</div>;
       };
 
-      const BarComponent = () => createElement('div', {}, 'bar');
+      const BarComponent = () => <div>bar</div>;
 
       class FooRoute extends Route {
         public component = FooComponent;
@@ -725,26 +751,23 @@ describe('Route', () => {
         public path = '/bar';
       }
 
-      const context: any = {};
-      render('/foo', FooRoute, context);
-      render('/foo', FooRoute, context);
+      const state = new RouterState();
+      await complexRender('/foo', FooRoute, state);
 
-      assert.deepEqual(context, {
-        action: 'PUSH',
-        url: '/bar',
-        statusCode: 301,
-      });
+      assert.isTrue(state.isRedirect);
+      assert.equal(state.redirectUrl, '/bar');
+      assert.equal(state.status, 301);
     });
   });
 
   describe('doReplace', () => {
-    it('should works', () => {
+    it('the routers state should has a status 301', async () => {
       const FooComponent = () => {
         BarRoute.get().doReplace();
-        return createElement('div', {}, 'foo');
+        return <div>foo</div>;
       };
 
-      const BarComponent = () => createElement('div', {}, 'bar');
+      const BarComponent = () => <div>bar</div>;
 
       class FooRoute extends Route {
         public component = FooComponent;
@@ -756,15 +779,12 @@ describe('Route', () => {
         public path = '/bar';
       }
 
-      const context: any = {};
-      render('/foo', FooRoute, context);
-      render('/foo', FooRoute, context);
+      const state = new RouterState();
+      await complexRender('/foo', FooRoute, state);
 
-      assert.deepEqual(context, {
-        action: 'REPLACE',
-        url: '/bar',
-        statusCode: 301,
-      });
+      assert.isTrue(state.isRedirect);
+      assert.equal(state.redirectUrl, '/bar');
+      assert.equal(state.status, 301);
     });
   });
 });

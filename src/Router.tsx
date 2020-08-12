@@ -2,7 +2,10 @@ import React, { FC, ComponentProps, ComponentType } from 'react';
 import { BrowserRouter, StaticRouter, HashRouter } from 'react-router-dom';
 
 import { RouterManager } from './RouterManager';
+import { RouterState } from './RouterState';
+import { RouterStore } from './RouterStore';
 import { RouterRoot } from './RouterRoot';
+import { StaticContext } from 'StaticContext';
 
 /**
  * Свойства статического роутера.
@@ -28,13 +31,11 @@ type Props = {
   url?: StaticProps['location'];
 
   /**
-   * Мутабельный контекст роутера. Используется для того, чтобы передавать
-   * информацию из компонентов React в серверную часть приложения при его
-   * запуске на NodeJS. Следует поместить в это свойство пустой объект,
-   * и после рендера приложения, в этот объект будут записаны дополнительные
-   * свойства.
+   * Состояние роутера при запуске на NodeJS. После завершения рендера в этом
+   * объекте будут находится HTTP-статус ответа, адрес страницы, на которую
+   * должен будет произойти редирект и тому подобное.
    */
-  context?: StaticProps['context'];
+  state?: RouterState;
 
   /**
    * Указывает, что при запуске этого компонента в браузере, в качестве
@@ -66,8 +67,8 @@ type Props = {
  */
 export const Router: FC<Props> = ({
   url,
-  context,
   children,
+  state = new RouterState(),
   hash = false,
   application,
   notFound,
@@ -83,6 +84,13 @@ export const Router: FC<Props> = ({
   );
 
   if (isServer) {
+    const context: StaticContext = {
+      statusCode: 200,
+    };
+
+    state.setContext(context);
+    RouterStore.get().setState(state);
+
     return (
       <StaticRouter {...props} context={context} location={url}>
         {content}

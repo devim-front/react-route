@@ -29,6 +29,8 @@ exports.Router = void 0;
 var react_1 = __importDefault(require("react"));
 var react_router_dom_1 = require("react-router-dom");
 var RouterManager_1 = require("./RouterManager");
+var RouterState_1 = require("./RouterState");
+var RouterStore_1 = require("./RouterStore");
 var RouterRoot_1 = require("./RouterRoot");
 /**
  * Помещает указанный в свойстве "application" компонент в контекст
@@ -39,13 +41,18 @@ var RouterRoot_1 = require("./RouterRoot");
  * HashRouter (в зависимости от значения свойства "hash").
  */
 exports.Router = function (_a) {
-    var url = _a.url, context = _a.context, children = _a.children, _b = _a.hash, hash = _b === void 0 ? false : _b, application = _a.application, notFound = _a.notFound, props = __rest(_a, ["url", "context", "children", "hash", "application", "notFound"]);
+    var url = _a.url, children = _a.children, _b = _a.state, state = _b === void 0 ? new RouterState_1.RouterState() : _b, _c = _a.hash, hash = _c === void 0 ? false : _c, application = _a.application, notFound = _a.notFound, props = __rest(_a, ["url", "children", "state", "hash", "application", "notFound"]);
     var isServer = typeof window === 'undefined';
     var content = (react_1.default.createElement(react_1.default.Fragment, null,
         react_1.default.createElement(RouterManager_1.RouterManager, null),
         react_1.default.createElement(RouterRoot_1.RouterRoot, { application: application, notFound: notFound })));
     if (isServer) {
-        return (react_1.default.createElement(react_router_dom_1.StaticRouter, __assign({}, props, { context: context, location: url }), content));
+        var context_1 = {
+            statusCode: 200,
+        };
+        state.setContext(context_1);
+        RouterStore_1.RouterStore.get().setState(state);
+        return (react_1.default.createElement(react_router_dom_1.StaticRouter, __assign({}, props, { context: context_1, location: url }), content));
     }
     return hash ? (react_1.default.createElement(react_router_dom_1.HashRouter, __assign({}, props), content)) : (react_1.default.createElement(react_router_dom_1.BrowserRouter, __assign({}, props), content));
 };

@@ -1,6 +1,8 @@
 import { LazyStore } from '@devim-front/store';
 import { observable, action } from 'mobx';
 
+import { RouterState } from './RouterState';
+
 /**
  * Хранилище состояния маршрутизатора.
  *
@@ -44,6 +46,20 @@ export class RouterStore extends LazyStore {
   public isNotFound: boolean = false;
 
   /**
+   * Состояние роутера.
+   */
+  private state: RouterState;
+
+  /**
+   * Задает состояние роутера.
+   *
+   * @param state Состояние.
+   */
+  public setState(state: RouterState) {
+    this.state = state;
+  }
+
+  /**
    * Задает адрес страницы, на которую нужно перейти в следующем цикле отрисовки
    * приложения.
    *
@@ -55,6 +71,10 @@ export class RouterStore extends LazyStore {
   public setRedirect(href: string, push: boolean = false) {
     this.redirect = href;
     this.push = push;
+
+    if (this.state) {
+      this.state.addPromise(Promise.resolve());
+    }
   }
 
   /**
@@ -72,6 +92,10 @@ export class RouterStore extends LazyStore {
   @action
   public setNotFound() {
     this.isNotFound = true;
+
+    if (this.state) {
+      this.state.addPromise(Promise.resolve());
+    }
   }
 
   /**

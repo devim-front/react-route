@@ -1,6 +1,6 @@
-import React, { Component, ComponentProps } from 'react';
+import React, { Component } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { Router } from './Router';
+import { StaticContext } from './StaticContext';
 /**
  * Свойства компонента.
  */
@@ -8,7 +8,7 @@ declare type Props = Omit<RouteComponentProps, 'staticContext'> & {
     /**
      * Статический контекст роутера при запуске приложения на NodeJS.
      */
-    staticContext?: ComponentProps<typeof Router>['context'];
+    staticContext?: StaticContext;
 };
 /**
  * Обеспечивает интеграцию между хранилищами маршрутов и контекстом роутера из

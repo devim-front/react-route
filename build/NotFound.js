@@ -17,7 +17,9 @@ exports.NotFound = void 0;
 var react_1 = require("react");
 var RouterStore_1 = require("./RouterStore");
 /**
- * Указывает, что данный адрес не найден.
+ * При вставке в Virual DOM указывает, что данный адрес страницы не обработан
+ * ни одним маршрутом (иными словами, указывает роутеру отобразить страницу
+ * 404).
  */
 var NotFound = /** @class */ (function (_super) {
     __extends(NotFound, _super);

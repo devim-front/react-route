@@ -163,7 +163,7 @@ export const ArticlePage = observer(() => {
 
 ### Маршрутизатор
 
-Большинство react приложений строятся таким образом, чтобы работать не только в браузере, но и на NodeJS для Server Side Rendering. Библиотека `react-router-dom` предоставляет свои маршрутизаторы: `StaticRouter` для серверной части и `BrowserRouter` для клиентской. Мы решили объединить их в один компонент `Router`:
+Большинство react-приложений строятся таким образом, чтобы работать не только в браузере, но и на NodeJS для Server Side Rendering. Библиотека `react-router-dom` предоставляет свои маршрутизаторы: `StaticRouter` для серверной части и `BrowserRouter` для клиентской. Мы решили объединить их в один компонент `Router`:
 
 ```tsx
 // index.ts
@@ -176,6 +176,22 @@ render(<Router application={App} />, document.getElementById('root'));
 ```
 
 Он сам определяет, в какой среде выполняется приложение, и использует соответствующий контекст. Он предоставляет унифицированный набор свойств, совместимый со всеми возможностями компонентов из `react-router-dom`.
+
+Кроме того, в роутере можно объявить, какой компонент должен быть отображён, если ни один из маршрутов не обработал текущую страницу. Сделать это можно с помощью свойства `notFound`:
+
+```tsx
+// index.ts
+import { Router } from '@devim-front/react-route';
+import { render } from 'react-dom';
+
+import { NotFound } from './NotFound';
+import { App } from './App';
+
+render(
+  <Router application={App} notFound={NotFound} />,
+  document.getElementById('root')
+);
+```
 
 Для работоспособности всех фич библиотеки мы настоятельно рекомендуем использовать компонент `Router` вместо стандартных средств `react-router-dom`.
 

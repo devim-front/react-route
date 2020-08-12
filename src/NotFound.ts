@@ -3,7 +3,9 @@ import { Component } from 'react';
 import { RouterStore } from './RouterStore';
 
 /**
- * Указывает, что данный адрес не найден.
+ * При вставке в Virual DOM указывает, что данный адрес страницы не обработан
+ * ни одним маршрутом (иными словами, указывает роутеру отобразить страницу
+ * 404).
  */
 export class NotFound extends Component {
   /**

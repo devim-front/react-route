@@ -12,6 +12,7 @@
 * [Route](classes/route.md)
 * [RouterManager](classes/routermanager.md)
 * [RouterRoot](classes/routerroot.md)
+* [RouterState](classes/routerstate.md)
 * [UndefinedComponentError](classes/undefinedcomponenterror.md)
 * [UndefinedPathError](classes/undefinedpatherror.md)
 
@@ -26,6 +27,7 @@
 * [Handler](README.md#markdown-header-handler)
 * [Params](README.md#markdown-header-params)
 * [Props](README.md#markdown-header-props)
+* [StaticContext](README.md#markdown-header-staticcontext)
 * [StaticProps](README.md#markdown-header-staticprops)
 
 ### Functions
@@ -82,13 +84,21 @@ ___
 
 * **basename**? : *undefined | string*
 
-* **context**? : *StaticProps["context"]*
-
 * **hash**? : *undefined | false | true*
 
 * **notFound**? : *ComponentType‹any›*
 
+* **state**? : *[RouterState](classes/routerstate.md)*
+
 * **url**? : *StaticProps["location"]*
+
+___
+
+### <a id="markdown-header-staticcontext" name="markdown-header-staticcontext"></a>  StaticContext
+
+Ƭ **StaticContext**: *Exclude‹ComponentProps<typeof StaticRouter>["context"], undefined›*
+
+Объект контекста роутера.
 
 ___
 
